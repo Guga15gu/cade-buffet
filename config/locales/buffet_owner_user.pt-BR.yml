@@ -1,0 +1,7 @@
+pt-BR:
+  activerecord:
+    models:
+      buffet_owner_user: Usuário Dono de Buffet
+    attributes:
+      buffet_owner_user:
+        name: 'Nome'
