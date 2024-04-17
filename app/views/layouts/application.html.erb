@@ -10,6 +10,23 @@
   </head>
 
   <body>
-    <%= yield %>
+    <head>
+      <nav>
+        <% if user_signed_in? %>
+          <%= current_user.email %> |
+          <%= button_to 'Sair', destroy_user_session_path, method: :delete %>
+        <% else%>
+          <%= link_to 'Entrar', new_user_session_path %>
+        <% end %>
+      </nav>
+    </head>
+    <main>
+      <div>
+        <p class="notice"><%= notice %></p>
+        <p class="alert"><%= alert %></p>
+      </div>
+      <%= yield %>
+    </main>
+    
   </body>
 </html>
