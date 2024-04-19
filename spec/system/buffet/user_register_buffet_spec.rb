@@ -38,15 +38,46 @@ describe 'Usuário cadastra um buffet' do
     expect(page).to have_content 'Seu Buffet foi cadastrado com sucesso!'
     expect(page).to have_content('Buffet Delícias')
     expect(page).to have_content('Razão Social: Empresa de Buffet Ltda')
-    expect(page).to have_content('CPF: 12345678901234')
+    expect(page).to have_content('CNPJ: 12345678901234')
     expect(page).to have_content('Contato: (11) 1234-5678')
     expect(page).to have_content('Endereço: Rua dos Sabores, 123')
     expect(page).to have_content('Bairro: Centro')
     expect(page).to have_content('Estado: São Paulo')
     expect(page).to have_content('Cidade: São Paulo')
-    expect(page).to have_content('CPF: 12345-678')
+    expect(page).to have_content('CEP: 12345-678')
     expect(page).to have_content('Descrição: Buffet especializado em eventos corporativos')
-    expect(page).to have_content('Meio de Pagamento: Cartão de crédito, Dinheiro')
+    expect(page).to have_content('Meios de Pagamento: Cartão de crédito, Dinheiro')
   end
 
+  it 'e pode somente cadastrar um Buffet' do
+    # Arrange
+    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    buffet = Buffet.create!(
+      business_name: 'Buffet Delícias',
+      corporate_name: 'Empresa de Buffet Ltda',
+      registration_number: '12345678901234',
+      contact_phone: '(11) 1234-5678',
+      address: 'Rua dos Sabores, 123',
+      district: 'Centro',
+      state: 'São Paulo',
+      city: 'São Paulo',
+      postal_code: '12345-678',
+      description: 'Buffet especializado em eventos corporativos',
+      payment_methods: 'Cartão de crédito, Dinheiro',
+      buffet_owner_user: buffet_owner_user
+    )
+
+    # Act
+    login_as(buffet_owner_user)
+    visit root_path
+    click_on 'Registrar Buffet'
+
+    # Assert
+    expect(page).to have_content 'Você já é dono de um Buffet, e apenas podes ser Dono de um Buffet!'
+    expect(current_path).not_to eq new_buffet_path
+    expect(current_path).to eq buffet_path(buffet)
+  end
+
+  
 end
