@@ -24,6 +24,20 @@ class BuffetsController < ApplicationController
   def show
   end
 
+  def edit
+  end
+
+  def update
+    buffet_params = params.require(:buffet).permit(:business_name, :corporate_name, :registration_number, :contact_phone, :address, :district, :state, :city, :postal_code, :description, :payment_methods)
+
+    if @buffet.update(buffet_params)
+      redirect_to @buffet, notice: 'Seu Buffet foi editado com sucesso!'
+    else
+      flash.now[:notice] = 'Não foi possível atualizar o Buffet'
+      render 'edit'
+    end
+
+  end
   private
 
   def require_and_set_buffet

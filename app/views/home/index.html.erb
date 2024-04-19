@@ -1,0 +1,5 @@
+<% if @buffet.nil? %>
+  <%= link_to 'Registrar Buffet', new_buffet_path %>
+<% else %>
+  <%= link_to @buffet.business_name, @buffet %>
+<% end%>

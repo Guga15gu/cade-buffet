@@ -1,5 +1,9 @@
 <h1>Buffet</h1>
 
+<div>
+  <%= link_to 'Editar Buffet', edit_buffet_path(@buffet) %>
+</div>
+
 <dl>
   <dt><%= Buffet.human_attribute_name(:business_name) %>:</dt>
   <dd><%= @buffet.business_name %></dd>

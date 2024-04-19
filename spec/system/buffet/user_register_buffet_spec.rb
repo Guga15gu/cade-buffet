@@ -71,12 +71,9 @@ describe 'Usuário cadastra um buffet' do
     # Act
     login_as(buffet_owner_user)
     visit root_path
-    click_on 'Registrar Buffet'
 
     # Assert
-    expect(page).to have_content 'Você já é dono de um Buffet, e apenas podes ser Dono de um Buffet!'
-    expect(current_path).not_to eq new_buffet_path
-    expect(current_path).to eq buffet_path(buffet)
+    expect(page).not_to have_link 'Registrar Buffet'
   end
 
   it 'e não informa Nome Fantasia' do
