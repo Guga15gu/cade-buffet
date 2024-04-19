@@ -79,5 +79,31 @@ describe 'Usuário cadastra um buffet' do
     expect(current_path).to eq buffet_path(buffet)
   end
 
-  
+  it 'e não informa Nome Fantasia' do
+    # Arrange
+    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    # Act
+    login_as(buffet_owner_user)
+    visit root_path
+    click_on 'Registrar Buffet'
+
+    fill_in 'Nome Fantasia', with: ''
+    fill_in 'Razão Social', with: 'Empresa de Buffet Ltda'
+    fill_in 'CNPJ', with: '12345678901234'
+    fill_in 'Telefone para Contato', with: '(11) 1234-5678'
+    fill_in 'Endereço', with: 'Rua dos Sabores, 123'
+    fill_in 'Bairro', with: 'Centro'
+    fill_in 'Estado', with: 'São Paulo'
+    fill_in 'Cidade', with: 'São Paulo'
+    fill_in 'CEP', with: '12345-678'
+    fill_in 'Descrição', with: 'Buffet especializado em eventos corporativos'
+    fill_in 'Meios de Pagamento', with: 'Cartão de crédito, Dinheiro'
+
+    click_on 'Enviar'
+
+    # Assert
+    expect(page).to have_content 'Seu Buffet não foi cadastrado.'
+    expect(page).to have_content 'Nome Fantasia não pode ficar em branco'
+  end
 end
