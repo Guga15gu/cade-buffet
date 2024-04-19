@@ -7,6 +7,6 @@ describe 'Usuario visita tela inicial' do
     # Act
     visit('/')
     # Assert
-    expect(page).to have_content('Cade Buffet?')
+    expect(page).to have_content('Cadê Buffet?')
   end
 end

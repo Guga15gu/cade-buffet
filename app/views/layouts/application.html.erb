@@ -18,13 +18,17 @@
         <% else%>
           <%= link_to 'Entrar', new_buffet_owner_user_session_path %>
         <% end %>
+        <%= link_to 'Registrar Buffet', new_buffet_path %>
       </nav>
     </head>
     <main>
+      
       <div>
         <p class="notice"><%= notice %></p>
         <p class="alert"><%= alert %></p>
       </div>
+
+      <h1>Cadê Buffet?</h1>
       <%= yield %>
     </main>
     

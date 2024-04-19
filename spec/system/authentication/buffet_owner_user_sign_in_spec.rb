@@ -1,13 +1,16 @@
 require 'rails_helper'
 
-describe 'Usuário se autentica' do
+describe 'Usuário Dono de Buffet se autentica' do
   it 'com sucesso' do
     # Arrange
     BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
 
     # Act
     visit root_path
-    click_on 'Entrar'
+    within('nav') do
+      click_on 'Entrar'
+    end
+
     within('form') do
       fill_in 'E-mail', with: 'gustavo@email.com'
       fill_in 'Senha', with: 'password'
@@ -30,7 +33,9 @@ describe 'Usuário se autentica' do
 
     # Act
     visit root_path
-    click_on 'Entrar'
+    within('nav') do
+      click_on 'Entrar'
+    end
     within('form') do
       fill_in 'E-mail', with: 'gustavo@email.com'
       fill_in 'Senha', with: 'password'

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Usuário se autentica' do
+describe 'Usuário Dono de Buffet cria conta' do
   it 'com sucesso' do
     # Arrange
 

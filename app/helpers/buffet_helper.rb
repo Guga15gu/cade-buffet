@@ -1,0 +1,2 @@
+module BuffetHelper
+end
