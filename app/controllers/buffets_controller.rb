@@ -2,6 +2,7 @@ class BuffetsController < ApplicationController
   before_action :authenticate_buffet_owner_user!
   before_action :require_and_set_buffet, except: [:new, :create]
   before_action :check_if_already_has_buffet, only: [:new, :create]
+  before_action :check_buffet_owner_user, only: [:edit, :update]
 
   def new
     @buffet = Buffet.new
@@ -53,6 +54,13 @@ class BuffetsController < ApplicationController
       buffet = Buffet.find_by(buffet_owner_user: current_buffet_owner_user)
 
       return redirect_to buffet, alert: 'Você já é dono de um Buffet, e apenas podes ser Dono de um Buffet!'
+    end
+  end
+
+  def check_buffet_owner_user
+    @buffet = Buffet.find(params[:id])
+    if @buffet.buffet_owner_user != current_buffet_owner_user
+      return redirect_to root_path, alert: 'Você não possui acesso a este buffet.'
     end
   end
 end

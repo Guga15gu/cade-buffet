@@ -104,4 +104,50 @@ describe 'Usuário edita um buffet' do
     expect(page).to have_content "Descrição não pode ficar em branco"
     expect(page).to have_content "Meios de Pagamento não pode ficar em branco"
   end
+
+  it 'caso seja o dono' do
+    # Arrange
+    gustavo = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    joao = BuffetOwnerUser.create!(email: 'joao@email.com', password: 'password', name: 'João')
+
+    joao_buffet = Buffet.create!(
+      business_name: 'Buffet Delícias',
+      corporate_name: 'Empresa de Buffet Ltda',
+      registration_number: '12345678901234',
+      contact_phone: '(11) 1234-5678',
+      address: 'Rua dos Sabores, 123',
+      district: 'Centro',
+      state: 'São Paulo',
+      city: 'São Paulo',
+      postal_code: '12345-678',
+      description: 'Buffet especializado em eventos corporativos',
+      payment_methods: 'Cartão de crédito, Dinheiro',
+      buffet_owner_user: joao
+    )
+
+    gustavo_buffet = Buffet.create!(
+      business_name: 'Buffet Redondo',
+      corporate_name: 'Empresa de Circular Ltda',
+      registration_number: '234236546',
+      contact_phone: '(11) 32341-5678',
+      address: 'Rua das Bolas, 000',
+      district: 'Borda',
+      state: 'Rio Grande do Sul',
+      city: 'Pelotas',
+      postal_code: '6774-678',
+      description: 'Buffet especializado em comidas redondas',
+      payment_methods: 'Dinheiro, Cheque',
+      buffet_owner_user: gustavo
+    )
+
+    # Act
+    login_as(gustavo)
+    visit edit_buffet_path(joao_buffet)
+
+    # Expect
+    expect(current_path).not_to eq edit_buffet_path(joao_buffet)
+    expect(current_path).to eq root_path
+    expect(page).to have_content 'Você não possui acesso a este buffet.'
+
+  end
 end
