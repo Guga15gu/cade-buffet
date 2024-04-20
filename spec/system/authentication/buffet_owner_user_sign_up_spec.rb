@@ -16,6 +16,7 @@ describe 'Usuário Dono de Buffet cria conta' do
 
     # Assert
     expect(page).to have_content 'Boas vindas! Você realizou seu registro com sucesso.'
+    expect(page).to have_content 'Maria'
     expect(page).to have_content 'maria@email.com'
     expect(page).to have_button 'Sair'
     user = BuffetOwnerUser.last

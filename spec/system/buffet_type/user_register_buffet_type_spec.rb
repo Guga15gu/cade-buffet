@@ -11,6 +11,18 @@ describe 'Usuário cadastra um tipo de buffet' do
     expect(current_path).not_to have_link 'Cadastrar Tipo de Evento'
   end
 
+  it 'e só acha link para cadastro se existe um buffet' do
+    # Arrange
+    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    # Act
+    login_as(buffet_owner_user)
+    visit root_path
+
+    # Assert
+    expect(page).not_to have_link 'Registrar Tipo de Evento'
+  end
+
   it 'com sucesso' do
     # Arrange
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
@@ -59,7 +71,6 @@ describe 'Usuário cadastra um tipo de buffet' do
     expect(page).to have_content('Decoração: Disponível')
     expect(page).to have_content('Serviço de estacionamento: Disponível')
     expect(page).to have_content('Endereço exclusivo: Indisponível')
-
   end
 
   it 'e mantém os campos obrigatórios' do
@@ -106,5 +117,19 @@ describe 'Usuário cadastra um tipo de buffet' do
     expect(page).to have_content('Quantidade mínima de pessoas não pode ficar em branco')
     expect(page).to have_content('Duração não pode ficar em branco')
     expect(page).to have_content('Cardápio não pode ficar em branco')
+  end
+
+  it 'se somente já existe um buffet' do
+    # Arrange
+    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    # Act
+    login_as(buffet_owner_user)
+    visit new_buffet_type_path
+
+    # Assert
+    expect(current_path).not_to eq new_buffet_type_path
+    expect(current_path).to eq new_buffet_path
+    expect(page).to have_content 'Como Dono de Buffet, precisas cadastrar seu buffet!'
   end
 end

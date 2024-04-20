@@ -1,5 +1,6 @@
 class BuffetTypesController < ApplicationController
   before_action :set_buffet_type_and_check_ownership, only: [:show, :edit, :update]
+  before_action :require_and_set_buffet
 
   def new
     @buffet_type = BuffetType.new
@@ -42,6 +43,14 @@ class BuffetTypesController < ApplicationController
     @buffet_type = BuffetType.find(params[:id])
     if @buffet_type.buffet.buffet_owner_user != current_buffet_owner_user
       return redirect_to root_path, alert: 'Você não possui acesso a este tipo de Buffet.'
+    end
+  end
+
+  def require_and_set_buffet
+    if Buffet.exists?(buffet_owner_user: current_buffet_owner_user)
+      @buffet = Buffet.find_by(buffet_owner_user: current_buffet_owner_user)
+    else
+      return redirect_to new_buffet_path, alert: 'Como Dono de Buffet, precisas cadastrar seu buffet!'
     end
   end
 end

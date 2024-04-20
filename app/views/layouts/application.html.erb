@@ -13,9 +13,12 @@
     <head>
       <nav>
         <% if buffet_owner_user_signed_in? %>
+          <%= current_buffet_owner_user.name %> |
           <%= current_buffet_owner_user.email %> |
           <%= button_to 'Sair', destroy_buffet_owner_user_session_path, method: :delete %>
-          <%= link_to 'Registrar Tipo de Evento', new_buffet_type_path %>
+          <% if Buffet.exists?(buffet_owner_user: current_buffet_owner_user)%>
+            <%= link_to 'Registrar Tipo de Evento', new_buffet_type_path %>
+          <% end %>
         <% else%>
           <%= link_to 'Entrar', new_buffet_owner_user_session_path %>
         <% end %>
