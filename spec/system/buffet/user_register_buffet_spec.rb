@@ -76,6 +76,35 @@ describe 'Usuário cadastra um buffet' do
     expect(page).not_to have_link 'Registrar Buffet'
   end
 
+  it 'e não consegue cadastrar um segundo Buffet' do
+    # Arrange
+    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    buffet = Buffet.create!(
+      business_name: 'Buffet Delícias',
+      corporate_name: 'Empresa de Buffet Ltda',
+      registration_number: '12345678901234',
+      contact_phone: '(11) 1234-5678',
+      address: 'Rua dos Sabores, 123',
+      district: 'Centro',
+      state: 'São Paulo',
+      city: 'São Paulo',
+      postal_code: '12345-678',
+      description: 'Buffet especializado em eventos corporativos',
+      payment_methods: 'Cartão de crédito, Dinheiro',
+      buffet_owner_user: buffet_owner_user
+    )
+
+    # Act
+    login_as(buffet_owner_user)
+    visit new_buffet_path
+
+    # Assert
+    expect(current_path).not_to eq new_buffet_path
+    expect(current_path).to eq buffet_path(buffet)
+    expect(page).to have_content 'Você já é dono de um Buffet, e apenas podes ser Dono de um Buffet!'
+  end
+
   it 'e não informa Nome Fantasia' do
     # Arrange
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
