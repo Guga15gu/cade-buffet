@@ -57,9 +57,54 @@ describe 'Usuário cadastra um tipo de buffet' do
     expect(page).to have_content('Cardápio: Comida caseira e doce')
     expect(page).to have_content('Bebidas alcoólicas: Disponível')
     expect(page).to have_content('Decoração: Disponível')
-    expect(page).to have_content('Decoração: Disponível')
     expect(page).to have_content('Serviço de estacionamento: Disponível')
     expect(page).to have_content('Endereço exclusivo: Indisponível')
 
+  end
+
+  it 'e mantém os campos obrigatórios' do
+    # Arrange
+    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    buffet = Buffet.create!(
+      business_name: 'Buffet Delícias',
+      corporate_name: 'Empresa de Buffet Ltda',
+      registration_number: '12345678901234',
+      contact_phone: '(11) 1234-5678',
+      address: 'Rua dos Sabores, 123',
+      district: 'Centro',
+      state: 'São Paulo',
+      city: 'São Paulo',
+      postal_code: '12345-678',
+      description: 'Buffet especializado em eventos corporativos',
+      payment_methods: 'Cartão de crédito, Dinheiro',
+      buffet_owner_user: buffet_owner_user
+    )
+
+    # Act
+    login_as(buffet_owner_user)
+    visit root_path
+    click_on 'Registrar Tipo de Evento'
+
+    fill_in 'Nome', with: ''
+    fill_in 'Descrição', with: ''
+    fill_in 'Quantidade máxima de pessoas', with: ''
+    fill_in 'Quantidade mínima de pessoas', with: ''
+    fill_in 'Duração', with: ''
+    fill_in 'Cardápio', with: ''
+    select 'Indisponível', from: 'Bebidas alcoólicas'
+    select 'Indisponível', from: 'Decoração'
+    select 'Indisponível', from: 'Serviço de estacionamento'
+    select 'Indisponível', from: 'Endereço exclusivo'
+    click_on 'Enviar'
+
+    # Assert
+    expect(page).to have_content 'Seu Tipo de Buffet não foi cadastrado'
+    expect(page).to have_content 'Nome não pode ficar em branco'
+    expect(page).to have_content 'Descrição não pode ficar em branco'
+    expect(page).to have_content('Quantidade máxima de pessoas não pode ficar em branco')
+    expect(page).to have_content('Quantidade mínima de pessoas não pode ficar em branco')
+    expect(page).to have_content('Duração não pode ficar em branco')
+    expect(page).to have_content('Cardápio não pode ficar em branco')
   end
 end

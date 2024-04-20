@@ -1,6 +1,46 @@
 require 'rails_helper'
 
 describe 'Usuário edita um buffet' do
+  it 'a partir da tela inicial' do
+    # Arrange
+    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    buffet = Buffet.create!(
+      business_name: 'Buffet Delícias',
+      corporate_name: 'Empresa de Buffet Ltda',
+      registration_number: '12345678901234',
+      contact_phone: '(11) 1234-5678',
+      address: 'Rua dos Sabores, 123',
+      district: 'Centro',
+      state: 'São Paulo',
+      city: 'São Paulo',
+      postal_code: '12345-678',
+      description: 'Buffet especializado em eventos corporativos',
+      payment_methods: 'Cartão de crédito, Dinheiro',
+      buffet_owner_user: buffet_owner_user
+    )
+    # Act
+    login_as(buffet_owner_user)
+    visit root_path
+    click_on 'Buffet Delícias'
+    click_on 'Editar Buffet'
+
+    # Assert
+    expect(page).to have_content 'Editar Buffet'
+    expect(page).to have_field 'Nome Fantasia', with: 'Buffet Delícias'
+    expect(page).to have_field 'Razão Social', with: 'Empresa de Buffet Ltda'
+    expect(page).to have_field 'CNPJ', with: '12345678901234'
+    expect(page).to have_field 'Telefone para Contato', with: '(11) 1234-5678'
+    expect(page).to have_field 'Endereço', with: 'Rua dos Sabores, 123'
+    expect(page).to have_field 'Bairro', with: 'Centro'
+    expect(page).to have_field 'Estado', with: 'São Paulo'
+    expect(page).to have_field 'Cidade', with: 'São Paulo'
+    expect(page).to have_field 'CEP', with: '12345-678'
+    expect(page).to have_field 'Descrição', with: 'Buffet especializado em eventos corporativos'
+    expect(page).to have_field 'Meios de Pagamento', with: 'Cartão de crédito, Dinheiro'
+    expect(page).to have_button 'Enviar'
+  end
+
   it 'com sucesso' do
     # Arrange
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
