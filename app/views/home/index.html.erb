@@ -2,4 +2,12 @@
   <%= link_to 'Registrar Buffet', new_buffet_path %>
 <% else %>
   <%= link_to @buffet.business_name, @buffet %>
+
+  <p>Tipos de Buffet:</p>
+  <ul>
+    <% @buffet.buffet_types.each do |buffet_type| %>
+      <li><%= link_to buffet_type.name, buffet_type %></li>
+    <% end %>
+  </ul>
+
 <% end%>

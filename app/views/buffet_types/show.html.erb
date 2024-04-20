@@ -1,5 +1,9 @@
 <h2>Tipo de Buffet</h1>
 
+<div>
+  <%= link_to 'Editar tipo de Buffet', edit_buffet_type_path(@buffet_type) %>
+</div>
+
 <dl>
   <dt><%= BuffetType.human_attribute_name(:name) %>:</dt>
   <dd><%= @buffet_type.name %></dd>
