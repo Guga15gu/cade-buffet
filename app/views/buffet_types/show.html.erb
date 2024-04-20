@@ -3,6 +3,9 @@
 <div>
   <%= link_to 'Editar tipo de Buffet', edit_buffet_type_path(@buffet_type) %>
 </div>
+<div>
+  <%= link_to 'Cadastrar preço', new_buffet_type_price_path %>
+</div>
 
 <dl>
   <dt><%= BuffetType.human_attribute_name(:name) %>:</dt>

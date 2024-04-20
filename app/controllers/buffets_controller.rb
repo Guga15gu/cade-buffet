@@ -2,7 +2,7 @@ class BuffetsController < ApplicationController
   before_action :authenticate_buffet_owner_user!
   before_action :require_and_set_buffet, except: [:new, :create]
   before_action :check_if_already_has_buffet, only: [:new, :create]
-  before_action :check_buffet_owner_user, only: [:edit, :update]
+  before_action :check_buffet_owner_user, only: [:edit, :update, :show]
 
   def new
     @buffet = Buffet.new

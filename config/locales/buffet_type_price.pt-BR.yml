@@ -1,0 +1,16 @@
+pt-BR:
+  activerecord:
+    models:
+      buffet_type_price:
+        one: Preço de Buffet
+        other: Preços de Buffet
+    attributes:
+      buffet_type_price:
+        base_price_weekday: Preço base em dia de semana
+        additional_per_person_weekday: Adicional por pessoa em dia de semana
+        additional_per_hour_weekday: Adcional por hora em dia de semana
+        base_price_weekend: Preço base em fim de semana
+        additional_per_person_weekend: Adicional por pessoa em fim de semana
+        additional_per_hour_weekend: Adicional por hora em fim de semana
+
+    

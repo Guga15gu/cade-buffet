@@ -1,0 +1,40 @@
+<h1>Cadastrar preço</h1>
+
+<% if(@buffet_type_price.errors.any?) %>
+  <p>Verifique os erros abaixo:</p>
+  <ul>
+    <% @buffet_type_price.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_with(model: @buffet_type_price) do |f| %>
+  <div>
+    <%= f.label :base_price_weekday %>
+    <%= f.text_field :base_price_weekday %>
+  </div>
+  <div>
+    <%= f.label :additional_per_person_weekday %>
+    <%= f.text_area :additional_per_person_weekday %>
+  </div>
+  <div>
+    <%= f.label :additional_per_hour_weekday %>
+    <%= f.number_field :additional_per_hour_weekday %>
+  </div>
+  <div>
+    <%= f.label :base_price_weekend %>
+    <%= f.number_field :base_price_weekend %>
+  </div>
+  <div>
+    <%= f.label :additional_per_person_weekend %>
+    <%= f.number_field :additional_per_person_weekend %>
+  </div>
+  <div>
+    <%= f.label :additional_per_hour_weekend %>
+    <%= f.text_area :additional_per_hour_weekend %>
+  </div>
+  <div>
+    <%= f.submit 'Enviar' %>
+  </div>
+<% end %>
