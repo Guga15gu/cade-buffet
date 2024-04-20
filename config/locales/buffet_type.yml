@@ -1,0 +1,21 @@
+pt-BR:
+  activerecord:
+    models:
+      buffet_type:
+        one: Tipo de Buffet
+        other: Tipos De Buffet
+    attributes:
+      buffet_type:
+        name: "Nome"
+        description: "Descrição"
+        max_capacity_people: "Quantidade máxima de pessoas"
+        min_capacity_people: "Quantidade mínima de pessoas"
+        duration: "Duração"
+        menu: "Cardápio"
+        alcoholic_beverages: "Bebidas alcoólicas"
+        decoration: "Decoração"
+        parking_valet: "Serviço de estacionamento"
+        exclusive_address: 'Endereço exclusivo'
+        buffet_id: "Buffet"
+        buffet: "Buffet"
+    

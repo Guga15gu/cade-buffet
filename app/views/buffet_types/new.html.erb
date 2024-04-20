@@ -1,0 +1,56 @@
+<h1>Novo Tipo de Buffet</h1>
+
+<% if(@buffet_type.errors.any?) %>
+  <p>Verifique os erros abaixo:</p>
+  <ul>
+    <% @buffet_type.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_with(model: @buffet_type) do |f| %>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+  <div>
+    <%= f.label :description %>
+    <%= f.text_area :description %>
+  </div>
+  <div>
+    <%= f.label :max_capacity_people %>
+    <%= f.number_field :max_capacity_people %>
+  </div>
+  <div>
+    <%= f.label :min_capacity_people %>
+    <%= f.number_field :min_capacity_people %>
+  </div>
+  <div>
+    <%= f.label :duration %>
+    <%= f.number_field :duration %>
+  </div>
+  <div>
+    <%= f.label :menu %>
+    <%= f.text_area :menu %>
+  </div>
+  <div>
+    <%= f.label :alcoholic_beverages %>
+    <%= f.select :alcoholic_beverages, [[t('Available'), true], [t('Unavailable'), :false]], selected: false %>
+  </div>
+  <div>
+    <%= f.label :decoration %>
+    <%= f.select :decoration, [[t('Available'), true], [t('Unavailable'), false]], selected: :false %>
+  </div>
+  <div>
+    <%= f.label :parking_valet %>
+    <%= f.select :parking_valet, [[t('Available'), true], [t('Unavailable'), false]], selected: false %>
+  </div>
+  <div>
+    <%= f.label :exclusive_address %>
+    <%= f.select :exclusive_address, [[t('Available'), true], [t('Unavailable'), false]], selected: false %>
+  </div>
+  <div>
+    <%= f.submit 'Enviar' %>
+  </div>
+<% end %>

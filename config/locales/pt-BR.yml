@@ -1,0 +1,10 @@
+pt-BR:
+  hello: 'Olá mundo'
+  minute: 
+    one: 'minuto'
+    other: 'minutos'
+  people:
+    one: 'pessoa'
+    other: 'pessoas'
+  Available: 'Disponível'
+  Unavailable: 'Indisponível'

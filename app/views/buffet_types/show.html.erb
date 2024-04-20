@@ -1,0 +1,33 @@
+<h2>Tipo de Buffet</h1>
+
+<dl>
+  <dt><%= BuffetType.human_attribute_name(:name) %>:</dt>
+  <dd><%= @buffet_type.name %></dd>
+
+  <dt><%= BuffetType.human_attribute_name(:description) %>:</dt>
+  <dd><%= @buffet_type.description %></dd>
+
+  <dt><%= BuffetType.human_attribute_name(:max_capacity_people) %>:</dt>
+  <dd><%= @buffet_type.max_capacity_people %> <%= t('people', count: @buffet_type.max_capacity_people) %></dd>
+
+  <dt><%= BuffetType.human_attribute_name(:min_capacity_people) %>:</dt>
+  <dd><%= @buffet_type.min_capacity_people %> <%= t('people', count: @buffet_type.min_capacity_people) %></dd>
+
+  <dt><%= BuffetType.human_attribute_name(:duration) %>:</dt>
+  <dd><%= @buffet_type.duration %> <%= t('minute', count: @buffet_type.duration) %></dd>
+
+  <dt><%= BuffetType.human_attribute_name(:menu) %>:</dt>
+  <dd><%= @buffet_type.menu %></dd>
+
+  <dt><%= BuffetType.human_attribute_name(:alcoholic_beverages) %>:</dt>
+  <dd><%= @buffet_type.alcoholic_beverages ? t('Available') : t('Unavailable') %></dd>
+
+  <dt><%= BuffetType.human_attribute_name(:decoration) %>:</dt>
+  <dd><%= @buffet_type.decoration ? t('Available') : t('Unavailable') %></dd>
+
+  <dt><%= BuffetType.human_attribute_name(:parking_valet) %>:</dt>
+  <dd><%= @buffet_type.parking_valet ? t('Available') : t('Unavailable') %></dd>
+
+  <dt><%= BuffetType.human_attribute_name(:exclusive_address) %>:</dt>
+  <dd><%= @buffet_type.exclusive_address ? t('Available') : t('Unavailable') %></dd>
+</dl>
