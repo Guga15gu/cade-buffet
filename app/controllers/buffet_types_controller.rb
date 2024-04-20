@@ -1,4 +1,6 @@
 class BuffetTypesController < ApplicationController
+  before_action :set_buffet_type_and_check_ownership, only: [:show, :edit, :update]
+
   def new
     @buffet_type = BuffetType.new
   end
@@ -17,13 +19,9 @@ class BuffetTypesController < ApplicationController
     end
   end
 
-  def show
-    @buffet_type = BuffetType.find(params[:id])
-  end
+  def show; end
 
-  def edit
-    @buffet_type = BuffetType.find(params[:id])
-  end
+  def edit; end
 
   def update
     @buffet_type = BuffetType.find(params[:id])
@@ -35,6 +33,15 @@ class BuffetTypesController < ApplicationController
     else
       flash.now[:notice] = 'Não foi possível atualizar o seu tipo de Buffet'
       render 'edit'
+    end
+  end
+
+  private
+
+  def set_buffet_type_and_check_ownership
+    @buffet_type = BuffetType.find(params[:id])
+    if @buffet_type.buffet.buffet_owner_user != current_buffet_owner_user
+      return redirect_to root_path, alert: 'Você não possui acesso a este tipo de Buffet.'
     end
   end
 end

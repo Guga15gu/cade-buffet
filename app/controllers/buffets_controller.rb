@@ -39,6 +39,7 @@ class BuffetsController < ApplicationController
     end
 
   end
+
   private
 
   def require_and_set_buffet

@@ -66,4 +66,135 @@ describe 'Usuário edita um tipo de buffet' do
     expect(page).to have_content('Endereço exclusivo: Indisponível')
   end
 
+  it 'e mantém os campos obrigatórios' do
+    # Arrange
+    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    buffet = Buffet.create!(
+      business_name: 'Buffet Delícias',
+      corporate_name: 'Empresa de Buffet Ltda',
+      registration_number: '12345678901234',
+      contact_phone: '(11) 1234-5678',
+      address: 'Rua dos Sabores, 123',
+      district: 'Centro',
+      state: 'São Paulo',
+      city: 'São Paulo',
+      postal_code: '12345-678',
+      description: 'Buffet especializado em eventos corporativos',
+      payment_methods: 'Cartão de crédito, Dinheiro',
+      buffet_owner_user: buffet_owner_user
+    )
+    buffet_type = BuffetType.create!(
+      name: 'Casamento',
+      description: 'Casamento com comida',
+      max_capacity_people: 10,
+      min_capacity_people: 5,
+      duration: 120,
+      menu: 'Comida caseira e doce',
+      alcoholic_beverages: true,
+      decoration: true,
+      parking_valet: true,
+      exclusive_address: true,
+      buffet: buffet
+    )
+
+    # Act
+    login_as(buffet_owner_user)
+    visit root_path
+    click_on 'Casamento'
+    click_on 'Editar'
+
+    fill_in 'Nome', with: ''
+    fill_in 'Descrição', with: ''
+    fill_in 'Quantidade máxima de pessoas', with: ''
+    fill_in 'Quantidade mínima de pessoas', with: ''
+    fill_in 'Duração', with: ''
+    fill_in 'Cardápio', with: ''
+    select 'Indisponível', from: 'Bebidas alcoólicas'
+    select 'Indisponível', from: 'Decoração'
+    select 'Indisponível', from: 'Serviço de estacionamento'
+    select 'Indisponível', from: 'Endereço exclusivo'
+    click_on 'Enviar'
+
+    # Assert
+    expect(page).to have_content 'Não foi possível atualizar o seu tipo de Buffet'
+    expect(page).to have_content 'Nome não pode ficar em branco'
+    expect(page).to have_content 'Descrição não pode ficar em branco'
+    expect(page).to have_content('Quantidade máxima de pessoas não pode ficar em branco')
+    expect(page).to have_content('Quantidade mínima de pessoas não pode ficar em branco')
+    expect(page).to have_content('Duração não pode ficar em branco')
+    expect(page).to have_content('Cardápio não pode ficar em branco')
+  end
+
+  it 'caso seja o dono' do
+    # Arrange
+    gustavo = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    joao = BuffetOwnerUser.create!(email: 'joao@email.com', password: 'password', name: 'João')
+
+    joao_buffet = Buffet.create!(
+      business_name: 'Buffet Delícias',
+      corporate_name: 'Empresa de Buffet Ltda',
+      registration_number: '12345678901234',
+      contact_phone: '(11) 1234-5678',
+      address: 'Rua dos Sabores, 123',
+      district: 'Centro',
+      state: 'São Paulo',
+      city: 'São Paulo',
+      postal_code: '12345-678',
+      description: 'Buffet especializado em eventos corporativos',
+      payment_methods: 'Cartão de crédito, Dinheiro',
+      buffet_owner_user: joao
+    )
+
+    gustavo_buffet = Buffet.create!(
+      business_name: 'Buffet Redondo',
+      corporate_name: 'Empresa de Circular Ltda',
+      registration_number: '234236546',
+      contact_phone: '(11) 32341-5678',
+      address: 'Rua das Bolas, 000',
+      district: 'Borda',
+      state: 'Rio Grande do Sul',
+      city: 'Pelotas',
+      postal_code: '6774-678',
+      description: 'Buffet especializado em comidas redondas',
+      payment_methods: 'Dinheiro, Cheque',
+      buffet_owner_user: gustavo
+    )
+
+    joao_buffet_type = BuffetType.create!(
+      name: 'Casamento',
+      description: 'Casamento com comida',
+      max_capacity_people: 10,
+      min_capacity_people: 5,
+      duration: 120,
+      menu: 'Comida caseira e doce',
+      alcoholic_beverages: false,
+      decoration: true,
+      parking_valet: true,
+      exclusive_address: true,
+      buffet: joao_buffet
+    )
+
+    gustavo_buffet_type = BuffetType.create!(
+      name: 'Casamento Líquido',
+      description: 'Casamento com bebida',
+      max_capacity_people: 100,
+      min_capacity_people: 50,
+      duration: 240,
+      menu: 'Sopa',
+      alcoholic_beverages: true,
+      decoration: true,
+      parking_valet: true,
+      exclusive_address: true,
+      buffet: gustavo_buffet
+    )
+    # Act
+    login_as(gustavo)
+    visit edit_buffet_type_path(joao_buffet_type)
+
+    # Expect
+    expect(current_path).not_to eq edit_buffet_type_path(joao_buffet_type)
+    expect(current_path).to eq root_path
+    expect(page).to have_content 'Você não possui acesso a este tipo de Buffet.'
+  end
 end
