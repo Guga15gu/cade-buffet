@@ -4,5 +4,5 @@ Rails.application.routes.draw do
 
   resources :buffets, only: [:new, :create, :show, :edit, :update]
   resources :buffet_types, only: [:new, :create, :show, :edit, :update]
-  resources :buffet_type_prices, only: [:new, :create, :show]
+  resources :buffet_type_prices, only: [:new, :create, :show, :edit, :update]
 end

@@ -7,7 +7,11 @@
   <%= link_to 'Editar tipo de Buffet', edit_buffet_type_path(@buffet_type) %>
 </div>
 
-<% unless BuffetTypePrice.find_by(buffet_type: @buffet_type) %>
+<% if BuffetTypePrice.find_by(buffet_type: @buffet_type) %>
+  <div>
+    <%= link_to 'Editar preço', edit_buffet_type_price_path(buffet_type_id: @buffet_type.id) %>
+  </div>
+<% else %>
   <div>
     <%= link_to 'Cadastrar preço', new_buffet_type_price_path(buffet_type_id: @buffet_type.id) %>
   </div>
