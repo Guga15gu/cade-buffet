@@ -1,4 +1,5 @@
 class BuffetTypesController < ApplicationController
+  before_action :authenticate_buffet_owner_user!
   before_action :set_buffet_type_and_check_ownership, only: [:show, :edit, :update]
   before_action :require_and_set_buffet
 

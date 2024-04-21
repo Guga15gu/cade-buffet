@@ -5,7 +5,7 @@ describe 'Usuário registra um buffet' do
     # Arrange
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
 
-    buffet = Buffet.create!(
+    buffet = { :buffet => {
       business_name: 'Buffet Delícias',
       corporate_name: 'Empresa de Buffet Ltda',
       registration_number: '12345678901234',
@@ -17,11 +17,11 @@ describe 'Usuário registra um buffet' do
       postal_code: '12345-678',
       description: 'Buffet especializado em eventos corporativos',
       payment_methods: 'Cartão de crédito, Dinheiro',
-      buffet_owner_user: buffet_owner_user
-    )
+      }
+    }
 
     # Act
-    post(buffets_path, params: { buffet: buffet})
+    post(buffets_path, params: buffet)
 
     #Assert
     expect(response).to redirect_to(new_buffet_owner_user_session_path)
@@ -45,7 +45,7 @@ describe 'Usuário registra um buffet' do
       payment_methods: 'Cartão de crédito, Dinheiro',
       buffet_owner_user: buffet_owner_user
     )
-    second_buffet = Buffet.create!(
+    second_buffet = { :buffet => {
       business_name: 'Buffet Trágico',
       corporate_name: 'Empresa de Trágedias Ltda',
       registration_number: '32145678901234',
@@ -57,15 +57,18 @@ describe 'Usuário registra um buffet' do
       postal_code: '12345-123',
       description: 'Buffet especializado em eventos esportivos',
       payment_methods: 'Cartão de crédito',
-      buffet_owner_user: buffet_owner_user
-    )
+      }
+    }
 
     # Act
     login_as(buffet_owner_user)
-    post(buffets_path, params: { buffet: buffet})
-    post(buffets_path, params: { buffet: second_buffet})
+    post(buffets_path, params: second_buffet)
 
     #Assert
-    expect(response).to redirect_to(buffet_path(buffet))
+    expect(response).to redirect_to(buffet_path(1))
+  end
+
+  it 'e somente cria na sua conta' do
+  
   end
 end
