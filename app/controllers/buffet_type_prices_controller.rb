@@ -34,11 +34,23 @@ class BuffetTypePricesController < ApplicationController
 
   def edit
     @buffet_type_price = BuffetTypePrice.find(params[:id])
-    
-    @buffet_type_id = params[:buffet_type_id]
-    buffet_type = BuffetType.find(@buffet_type_id)
+
+    buffet_type = @buffet_type_price.buffet_type
     if buffet_type.buffet.buffet_owner_user != current_buffet_owner_user
       return redirect_to root_path, alert: 'Você não possui acesso a este tipo de buffet.'
+    end
+  end
+
+  def update
+    @buffet_type_price = BuffetTypePrice.find(params[:id])
+
+    buffet_type_price_params = params.require(:buffet_type_price).permit(:base_price_weekday, :additional_per_person_weekday, :additional_per_hour_weekday, :base_price_weekend, :additional_per_person_weekend, :additional_per_hour_weekend)
+
+    if @buffet_type_price.update(buffet_type_price_params)
+      redirect_to @buffet_type_price, notice: 'Seu preço de tipo de Buffet foi editado com sucesso!'
+    else
+      flash.now[:notice] = 'Não foi possível atualizar o seu preço de tipo de Buffet'
+      render 'edit'
     end
   end
 

@@ -9,13 +9,9 @@
   </ul>
 <% end %>
 
-<div><%= link_to 'Voltar', buffet_type_path(@buffet_type_id) %></div>
+<div><%= link_to 'Voltar', buffet_type_path(@buffet_type_price.buffet_type) %></div>
 
 <%= form_with(model: @buffet_type_price) do |f| %>
-  <div>
-    <%= f.hidden_field :buffet_type_id, value: @buffet_type_id %>
-  </div>
-  
   <div>
     <%= f.label :base_price_weekday %>
     <%= f.text_field :base_price_weekday %>
