@@ -6,9 +6,12 @@
 <div>
   <%= link_to 'Editar tipo de Buffet', edit_buffet_type_path(@buffet_type) %>
 </div>
-<div>
-  <%= link_to 'Cadastrar preço', new_buffet_type_price_path(buffet_type_id: @buffet_type.id) %>
-</div>
+
+<% unless BuffetTypePrice.find_by(buffet_type: @buffet_type) %>
+  <div>
+    <%= link_to 'Cadastrar preço', new_buffet_type_price_path(buffet_type_id: @buffet_type.id) %>
+  </div>
+<% end %>
 
 <dl>
   <dt><%= BuffetType.human_attribute_name(:name) %>:</dt>

@@ -2,8 +2,16 @@ class BuffetTypePricesController < ApplicationController
   before_action :authenticate_buffet_owner_user!
 
   def new
-    @buffet_type_price = BuffetTypePrice.new
+    if BuffetTypePrice.exists?(buffet_type: params[:buffet_type_id])
+      return redirect_to BuffetTypePrice.find_by(buffet_type: params[:buffet_type_id]), notice: 'Tipo de buffet já tem um preço!'
+    end
+
     @buffet_type_id = params[:buffet_type_id]
+    buffet_type = BuffetType.find(@buffet_type_id)
+    if buffet_type.buffet.buffet_owner_user != current_buffet_owner_user
+      return redirect_to root_path, alert: 'Você não possui acesso a este tipo de buffet.'
+    end
+    @buffet_type_price = BuffetTypePrice.new
   end
 
   def create
@@ -22,4 +30,5 @@ class BuffetTypePricesController < ApplicationController
   def show
     @buffet_type_price = BuffetTypePrice.find(params[:id])
   end
+
 end
