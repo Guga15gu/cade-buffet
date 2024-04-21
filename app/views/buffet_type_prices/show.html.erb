@@ -4,6 +4,10 @@
   <%= link_to 'Voltar', buffet_type_path(@buffet_type_price.buffet_type) %>
 </div>
 
+<div>
+    <%= link_to 'Editar preço', edit_buffet_type_price_path(@buffet_type_price) %>
+</div>
+
 <dl>
   <dt><%= BuffetTypePrice.human_attribute_name(:base_price_weekday) %>:</dt>
   <dd><%= @buffet_type_price.base_price_weekday %></dd>

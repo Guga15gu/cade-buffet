@@ -48,6 +48,7 @@ describe 'Usuário edita um preço de tipo de buffet' do
     login_as(buffet_owner_user)
     visit root_path
     click_on 'Casamento'
+    click_on 'Preço'
     click_on 'Editar preço'
 
     # Expect
@@ -108,6 +109,7 @@ describe 'Usuário edita um preço de tipo de buffet' do
     login_as(buffet_owner_user)
     visit root_path
     click_on 'Casamento'
+    click_on 'Preço'
     click_on 'Editar preço'
 
     fill_in 'Preço base em dia de semana', with: '110'
@@ -176,6 +178,7 @@ describe 'Usuário edita um preço de tipo de buffet' do
     login_as(buffet_owner_user)
     visit root_path
     click_on 'Casamento'
+    click_on 'Preço'
     click_on 'Editar preço'
 
     fill_in 'Preço base em dia de semana', with: ''
@@ -280,7 +283,7 @@ describe 'Usuário edita um preço de tipo de buffet' do
     # Expect
     expect(current_path).not_to eq edit_buffet_type_price_path(joao_buffet_type)
     expect(current_path).to eq root_path
-    expect(page).to have_content 'Você não possui acesso a este tipo de buffet.'
+    expect(page).to have_content 'Você não possui acesso a este preço de tipo de buffet.'
   end
 
   it 'e volta para preço de tipo de buffet' do
@@ -330,6 +333,7 @@ describe 'Usuário edita um preço de tipo de buffet' do
     login_as(buffet_owner_user)
     visit root_path
     click_on 'Casamento'
+    click_on 'Preço'
     click_on 'Editar preço'
     click_on 'Voltar'
 
