@@ -132,4 +132,33 @@ describe 'Usuário cadastra um tipo de buffet' do
     expect(current_path).to eq new_buffet_path
     expect(page).to have_content 'Como Dono de Buffet, precisas cadastrar seu buffet!'
   end
+
+  it 'e volta para tela inicial' do
+    # Arrange
+    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    buffet = Buffet.create!(
+      business_name: 'Buffet Delícias',
+      corporate_name: 'Empresa de Buffet Ltda',
+      registration_number: '12345678901234',
+      contact_phone: '(11) 1234-5678',
+      address: 'Rua dos Sabores, 123',
+      district: 'Centro',
+      state: 'São Paulo',
+      city: 'São Paulo',
+      postal_code: '12345-678',
+      description: 'Buffet especializado em eventos corporativos',
+      payment_methods: 'Cartão de crédito, Dinheiro',
+      buffet_owner_user: buffet_owner_user
+    )
+
+    # Act
+    login_as(buffet_owner_user)
+    visit root_path
+    click_on 'Registrar Tipo de Evento'
+    click_on 'Voltar'
+
+    # Assert
+    expect(current_path).to eq root_path
+  end
 end

@@ -9,6 +9,8 @@
   </ul>
 <% end %>
 
+<div><%= link_to 'Voltar', buffet_path(@buffet) %></div>
+
 <%= form_with(model: @buffet) do |f| %>
   <div>
     <%= f.label :business_name %>
