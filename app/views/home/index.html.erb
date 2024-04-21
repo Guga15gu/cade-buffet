@@ -4,10 +4,17 @@
 <% else %>
   <div> <%= link_to @buffet.business_name, buffet_path(@buffet) %> </div>
 
-  <p>Tipos de Buffet:</p>
-  <ul>
-    <% @buffet.buffet_types.each do |buffet_type| %>
-      <li><%= link_to buffet_type.name, buffet_type %></li>
-    <% end %>
-  </ul>
+  <% if @buffet.buffet_types.empty?%>
+    <p>Não há nenhum tipo de Buffet cadastrado.</p>
+  <% else %>
+    <div>
+      <p>Tipos de Buffet:</p>
+      <ul>
+        <% @buffet.buffet_types.each do |buffet_type| %>
+          <li><%= link_to buffet_type.name, buffet_type %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
 <% end %>
