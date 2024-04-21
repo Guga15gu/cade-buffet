@@ -1,0 +1,25 @@
+<h2>Preço do tipo de Buffet <%= @buffet_type_price.buffet_type.name %></h2>
+
+<div>
+  <%= link_to 'Voltar', buffet_type_path(@buffet_type_price.buffet_type) %>
+</div>
+
+<dl>
+  <dt><%= BuffetTypePrice.human_attribute_name(:base_price_weekday) %>:</dt>
+  <dd><%= @buffet_type_price.base_price_weekday %></dd>
+
+  <dt><%= BuffetTypePrice.human_attribute_name(:additional_per_person_weekday) %>:</dt>
+  <dd><%= @buffet_type_price.additional_per_person_weekday %></dd>
+
+  <dt><%= BuffetTypePrice.human_attribute_name(:additional_per_hour_weekday) %>:</dt>
+  <dd><%= @buffet_type_price.additional_per_hour_weekday %></dd>
+
+  <dt><%= BuffetTypePrice.human_attribute_name(:base_price_weekend) %>:</dt>
+  <dd><%= @buffet_type_price.base_price_weekend %></dd>
+
+  <dt><%= BuffetTypePrice.human_attribute_name(:additional_per_person_weekend) %>:</dt>
+  <dd><%= @buffet_type_price.additional_per_person_weekend %></dd>
+
+  <dt><%= BuffetTypePrice.human_attribute_name(:additional_per_hour_weekend) %>:</dt>
+  <dd><%= @buffet_type_price.additional_per_hour_weekend %></dd>
+</dl>
