@@ -3,15 +3,18 @@
 <div>
   <%= link_to 'Voltar', root_path %>
 </div>
-<div>
-  <%= link_to 'Editar tipo de Buffet', edit_buffet_type_path(@buffet_type) %>
-</div>
+
+<% if buffet_owner_user_signed_in? %>
+  <div>
+    <%= link_to 'Editar tipo de Buffet', edit_buffet_type_path(@buffet_type) %>
+  </div>
+<% end%>
 
 <% if BuffetTypePrice.find_by(buffet_type: @buffet_type) %>
   <div>
     <%= link_to 'Preço', buffet_type_price_path(@buffet_type.buffet_type_price) %>
   </div>
-<% else %>
+<% elsif buffet_owner_user_signed_in? %>
   <div>
     <%= link_to 'Cadastrar preço', new_buffet_type_price_path(buffet_type_id: @buffet_type.id) %>
   </div>

@@ -1,5 +1,5 @@
 class BuffetTypePricesController < ApplicationController
-  before_action :authenticate_buffet_owner_user!
+  before_action :authenticate_buffet_owner_user!, only: [:new, :create, :edit, :update]
 
   def new
     if BuffetTypePrice.exists?(buffet_type: params[:buffet_type_id])
@@ -32,8 +32,11 @@ class BuffetTypePricesController < ApplicationController
     @buffet_type_price = BuffetTypePrice.find(params[:id])
 
     buffet_type = @buffet_type_price.buffet_type
-    if buffet_type.buffet.buffet_owner_user != current_buffet_owner_user
-      return redirect_to root_path, alert: 'Você não possui acesso a este preço de tipo de buffet.'
+
+    if buffet_owner_user_signed_in?
+      if buffet_type.buffet.buffet_owner_user != current_buffet_owner_user
+        return redirect_to root_path, alert: 'Você não possui acesso a este preço de tipo de buffet.'
+      end
     end
   end
 
