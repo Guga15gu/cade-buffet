@@ -1,20 +1,41 @@
 <% if @buffet.nil? %>
   <div> <%= link_to 'Registrar Buffet', new_buffet_path %> </div>
+<% end %>
+
+<% if buffet_owner_user_signed_in? %>
+
+  <% unless @buffet.nil? %>
+    <div> <%= link_to @buffet.business_name, buffet_path(@buffet) %> </div>
+
+    <% if @buffet.buffet_types.empty?%>
+      <p>Não há nenhum tipo de Buffet cadastrado.</p>
+    <% else %>
+      <div>
+        <p>Tipos de Buffet:</p>
+        <ul>
+          <% @buffet.buffet_types.each do |buffet_type| %>
+            <li><%= link_to buffet_type.name, buffet_type %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  <% end %>
 
 <% else %>
-  <div> <%= link_to @buffet.business_name, buffet_path(@buffet) %> </div>
 
-  <% if @buffet.buffet_types.empty?%>
-    <p>Não há nenhum tipo de Buffet cadastrado.</p>
+  <% if  @buffets.empty?%>
+    <div>Não existem buffets cadastrados</div>
   <% else %>
-    <div>
-      <p>Tipos de Buffet:</p>
-      <ul>
-        <% @buffet.buffet_types.each do |buffet_type| %>
-          <li><%= link_to buffet_type.name, buffet_type %></li>
-        <% end %>
-      </ul>
-    </div>
+    <div>Lista de Buffets: </div>
+    <ul>
+      <% @buffets.each do |buffet| %>
+      <li>
+        <%= link_to buffet.business_name, buffet %>, 
+        <%= buffet.city %> - <%= buffet.state %>
+      </li>
+      <% end %>
+    </ul>
   <% end %>
-  
+
 <% end %>
+

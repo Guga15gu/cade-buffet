@@ -1,14 +1,19 @@
 <h2>Buffet</h2>
 
 <div><%= link_to 'Voltar', root_path %></div>
-<div><%= link_to 'Editar Buffet', edit_buffet_path(@buffet) %></div>
+
+<% if buffet_owner_user_signed_in? %>
+  <div><%= link_to 'Editar Buffet', edit_buffet_path(@buffet) %></div>
+<% end %>
 
 <dl>
   <dt><%= Buffet.human_attribute_name(:business_name) %>:</dt>
   <dd><%= @buffet.business_name %></dd>
 
-  <dt><%= Buffet.human_attribute_name(:corporate_name) %>:</dt>
-  <dd><%= @buffet.corporate_name %></dd>
+  <% if buffet_owner_user_signed_in? %>
+    <dt><%= Buffet.human_attribute_name(:corporate_name) %>:</dt>
+    <dd><%= @buffet.corporate_name %></dd>
+  <% end %>
 
   <dt><%= Buffet.human_attribute_name(:registration_number) %>:</dt>
   <dd><%= @buffet.registration_number %></dd>
