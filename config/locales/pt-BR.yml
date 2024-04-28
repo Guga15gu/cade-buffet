@@ -8,3 +8,6 @@ pt-BR:
     other: 'pessoas'
   Available: 'Disponível'
   Unavailable: 'Indisponível'
+  found: 
+    one: 'encontrado'
+    other: 'encontrados'

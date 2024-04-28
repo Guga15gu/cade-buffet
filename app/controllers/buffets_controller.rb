@@ -41,6 +41,15 @@ class BuffetsController < ApplicationController
 
   end
 
+  def search
+    @query = params[:query]
+
+    buffets_by_city_or_state = Buffet.where("business_name LIKE ? OR city LIKE ?", "%#{@query}%", "%#{@query}%")
+    buffets_by_type = Buffet.joins(:buffet_types).where("buffet_types.name LIKE ?", "%#{@query}%")
+
+    @buffets = (buffets_by_city_or_state + buffets_by_type).sort_by { |buffet| buffet.business_name }
+  end
+
   private
 
   def require_and_set_buffet

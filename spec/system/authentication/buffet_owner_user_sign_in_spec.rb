@@ -11,7 +11,7 @@ describe 'Usuário Dono de Buffet se autentica' do
       click_on 'Entrar'
     end
 
-    within('form') do
+    within('div form') do
       fill_in 'E-mail', with: 'gustavo@email.com'
       fill_in 'Senha', with: 'password'
 
@@ -37,7 +37,7 @@ describe 'Usuário Dono de Buffet se autentica' do
     within('nav') do
       click_on 'Entrar'
     end
-    within('form') do
+    within('div form') do
       fill_in 'E-mail', with: 'gustavo@email.com'
       fill_in 'Senha', with: 'password'
 
