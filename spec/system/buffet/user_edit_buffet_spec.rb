@@ -20,7 +20,7 @@ describe 'Usuário edita um buffet' do
       buffet_owner_user: buffet_owner_user
     )
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
     click_on 'Buffet Delícias'
     click_on 'Editar Buffet'
@@ -60,7 +60,7 @@ describe 'Usuário edita um buffet' do
       buffet_owner_user: buffet_owner_user
     )
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
     click_on 'Buffet Delícias'
     click_on 'Editar Buffet'
@@ -112,7 +112,7 @@ describe 'Usuário edita um buffet' do
       buffet_owner_user: buffet_owner_user
     )
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
     click_on 'Buffet Delícias'
     click_on 'Editar Buffet'
@@ -181,7 +181,7 @@ describe 'Usuário edita um buffet' do
     )
 
     # Act
-    login_as(gustavo)
+    login_as(gustavo, :scope => :buffet_owner_user)
     visit edit_buffet_path(joao_buffet)
 
     # Expect
@@ -210,7 +210,7 @@ describe 'Usuário edita um buffet' do
       buffet_owner_user: buffet_owner_user
     )
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
     click_on 'Buffet Delícias'
     click_on 'Editar Buffet'

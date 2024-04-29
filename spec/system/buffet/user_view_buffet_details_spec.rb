@@ -21,7 +21,7 @@ describe 'Usuário dono de buffet vê Buffet' do
     )
 
     # Act
-    login_as buffet_owner_user
+    login_as buffet_owner_user, :scope => :buffet_owner_user
     visit(root_path)
     click_on 'Buffet Delícias'
 
@@ -60,7 +60,7 @@ describe 'Usuário dono de buffet vê Buffet' do
     )
 
     # Act
-    login_as buffet_owner_user
+    login_as buffet_owner_user, :scope => :buffet_owner_user
     visit(root_path)
     click_on 'Buffet Delícias'
 
@@ -88,7 +88,7 @@ describe 'Usuário dono de buffet vê Buffet' do
     )
 
     # Act
-    login_as buffet_owner_user
+    login_as buffet_owner_user, :scope => :buffet_owner_user
     visit(root_path)
     click_on 'Buffet Delícias'
     click_on 'Voltar'

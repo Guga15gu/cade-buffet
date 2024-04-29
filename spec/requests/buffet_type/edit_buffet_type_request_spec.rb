@@ -105,7 +105,7 @@ describe 'Usuário edita um tipo de  buffet' do
      )
 
      # Act
-     login_as(gustavo)
+     login_as(gustavo, :scope => :buffet_owner_user)
      patch(buffet_type_path(joao_buffet_type), params: { buffet_type: {name: 'HEhehHE'}})
 
      # Expect

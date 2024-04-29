@@ -16,7 +16,7 @@ describe 'Usuário cadastra um buffet' do
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
     click_on 'Registrar Buffet'
 
@@ -69,7 +69,7 @@ describe 'Usuário cadastra um buffet' do
     )
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
 
     # Assert
@@ -96,7 +96,7 @@ describe 'Usuário cadastra um buffet' do
     )
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit new_buffet_path
 
     # Assert
@@ -110,7 +110,7 @@ describe 'Usuário cadastra um buffet' do
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
     click_on 'Registrar Buffet'
 

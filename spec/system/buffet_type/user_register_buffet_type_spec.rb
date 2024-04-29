@@ -16,7 +16,7 @@ describe 'Usuário cadastra um tipo de buffet' do
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
 
     # Assert
@@ -43,7 +43,7 @@ describe 'Usuário cadastra um tipo de buffet' do
     )
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
     click_on 'Registrar Tipo de Evento'
 
@@ -93,7 +93,7 @@ describe 'Usuário cadastra um tipo de buffet' do
     )
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
     click_on 'Registrar Tipo de Evento'
 
@@ -124,7 +124,7 @@ describe 'Usuário cadastra um tipo de buffet' do
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit new_buffet_type_path
 
     # Assert
@@ -153,7 +153,7 @@ describe 'Usuário cadastra um tipo de buffet' do
     )
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
     click_on 'Registrar Tipo de Evento'
     click_on 'Voltar'

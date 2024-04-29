@@ -61,7 +61,7 @@ describe 'Usuário registra um buffet' do
     }
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     post(buffets_path, params: second_buffet)
 
     #Assert
@@ -69,6 +69,6 @@ describe 'Usuário registra um buffet' do
   end
 
   it 'e somente cria na sua conta' do
-  
+
   end
 end

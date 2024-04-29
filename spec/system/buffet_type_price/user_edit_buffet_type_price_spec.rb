@@ -45,7 +45,7 @@ describe 'Usuário edita um preço de tipo de buffet' do
     )
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
     click_on 'Casamento'
     click_on 'Preço'
@@ -106,7 +106,7 @@ describe 'Usuário edita um preço de tipo de buffet' do
     )
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
     click_on 'Casamento'
     click_on 'Preço'
@@ -175,7 +175,7 @@ describe 'Usuário edita um preço de tipo de buffet' do
     )
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
     click_on 'Casamento'
     click_on 'Preço'
@@ -277,7 +277,7 @@ describe 'Usuário edita um preço de tipo de buffet' do
       buffet_type: gustavo_buffet_type
     )
     # Act
-    login_as(gustavo)
+    login_as gustavo, :scope => :buffet_owner_user
     visit edit_buffet_type_price_path(joao_buffet_type_price)
 
     # Expect
@@ -330,7 +330,7 @@ describe 'Usuário edita um preço de tipo de buffet' do
     )
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
     click_on 'Casamento'
     click_on 'Preço'

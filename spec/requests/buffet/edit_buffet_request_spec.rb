@@ -62,7 +62,7 @@ describe 'Usuário edita um buffet' do
     )
 
     # Act
-    login_as(gustavo)
+    login_as(gustavo, :scope => :buffet_owner_user)
     patch(buffet_path(joao_buffet), params: { buffet: {business_name: 'HEhehHE'}})
 
     # Expect

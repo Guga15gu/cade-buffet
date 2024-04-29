@@ -46,7 +46,7 @@ describe 'Usuário cadastra um preço de tipo de buffet' do
     )
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
     click_on 'Casamento'
     click_on 'Cadastrar preço'
@@ -97,7 +97,7 @@ describe 'Usuário cadastra um preço de tipo de buffet' do
     )
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
     click_on 'Casamento'
     click_on 'Cadastrar preço'
@@ -154,7 +154,7 @@ describe 'Usuário cadastra um preço de tipo de buffet' do
     )
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
     click_on 'Casamento'
     click_on 'Cadastrar preço'
@@ -238,7 +238,7 @@ describe 'Usuário cadastra um preço de tipo de buffet' do
     )
 
     # Act
-    login_as(gustavo)
+    login_as gustavo, :scope => :buffet_owner_user
     visit new_buffet_type_price_path(buffet_type_id: joao_buffet_type.id)
 
     # Expect
@@ -291,7 +291,7 @@ describe 'Usuário cadastra um preço de tipo de buffet' do
     )
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
     click_on 'Casamento'
 
@@ -343,7 +343,7 @@ describe 'Usuário cadastra um preço de tipo de buffet' do
     )
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit new_buffet_type_price_path(buffet_type_id: buffet_type.id)
 
     # Assert
@@ -386,7 +386,7 @@ describe 'Usuário cadastra um preço de tipo de buffet' do
     )
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
     click_on 'Casamento'
     click_on 'Cadastrar preço'

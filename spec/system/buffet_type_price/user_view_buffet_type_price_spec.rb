@@ -45,7 +45,7 @@ describe 'Usuário vê preço de tipo de evento' do
     )
 
     # Assert
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
     click_on 'Casamento'
     click_on 'Preço'
@@ -106,7 +106,7 @@ describe 'Usuário vê preço de tipo de evento' do
     )
 
     # Assert
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
     click_on 'Casamento'
     click_on 'Preço'
@@ -195,7 +195,7 @@ describe 'Usuário vê preço de tipo de evento' do
       buffet_type: gustavo_buffet_type
     )
     # Act
-    login_as(gustavo)
+    login_as(gustavo, :scope => :buffet_owner_user)
     visit buffet_type_price_path(joao_buffet_type_price)
 
     # Expect

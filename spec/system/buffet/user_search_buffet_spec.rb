@@ -275,7 +275,7 @@ describe 'Usuário dono de buffet' do
     # Arrange
     user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
     # Act
-    login_as user
+    login_as user, :scope => :buffet_owner_user
     visit root_path
 
     # Assert

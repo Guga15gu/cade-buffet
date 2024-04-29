@@ -45,7 +45,7 @@ describe 'Usuário vê um tipo de buffet' do
     )
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
     click_on 'Casamento'
 
@@ -98,7 +98,7 @@ describe 'Usuário vê um tipo de buffet' do
     )
 
     # Act
-    login_as buffet_owner_user
+    login_as buffet_owner_user, :scope => :buffet_owner_user
     visit buffet_type_path(buffet_type)
     click_on 'Home'
 
@@ -167,7 +167,7 @@ describe 'Usuário vê um tipo de buffet' do
     )
 
     # Act
-    login_as(gustavo)
+    login_as gustavo, :scope => :buffet_owner_user
     visit buffet_type_path(joao_buffet_type)
 
     # Expect
@@ -210,7 +210,7 @@ describe 'Usuário vê um tipo de buffet' do
     )
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
     click_on 'Casamento'
     click_on 'Voltar'

@@ -21,7 +21,7 @@ describe 'Usuário vê lista de tipos de buffet' do
     )
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
 
     # Assert
@@ -89,7 +89,7 @@ describe 'Usuário vê lista de tipos de buffet' do
 
 
     # Act
-    login_as(buffet_owner_user)
+    login_as(buffet_owner_user, :scope => :buffet_owner_user)
     visit root_path
 
     # Assert
@@ -188,7 +188,7 @@ describe 'Usuário vê lista de tipos de buffet' do
 
 
     # Act
-    login_as(gustavo)
+    login_as gustavo, :scope => :buffet_owner_user
     visit root_path
 
     # Assert
