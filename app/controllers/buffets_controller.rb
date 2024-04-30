@@ -9,8 +9,6 @@ class BuffetsController < ApplicationController
   end
 
   def create
-    buffet_params = params.require(:buffet).permit(:business_name, :corporate_name, :registration_number, :contact_phone, :address, :district, :state, :city, :postal_code, :description, :payment_methods)
-
     @buffet = Buffet.new(buffet_params)
     @buffet.buffet_owner_user = current_buffet_owner_user
 
@@ -30,8 +28,6 @@ class BuffetsController < ApplicationController
   end
 
   def update
-    buffet_params = params.require(:buffet).permit(:business_name, :corporate_name, :registration_number, :contact_phone, :address, :district, :state, :city, :postal_code, :description, :payment_methods)
-
     if @buffet.update(buffet_params)
       redirect_to @buffet, notice: 'Seu Buffet foi editado com sucesso!'
     else
@@ -73,5 +69,9 @@ class BuffetsController < ApplicationController
     if @buffet.buffet_owner_user != current_buffet_owner_user
       return redirect_to root_path, alert: 'Você não possui acesso a este buffet.'
     end
+  end
+
+  def buffet_params
+    params.require(:buffet).permit(:business_name, :corporate_name, :registration_number, :contact_phone, :address, :district, :state, :city, :postal_code, :description, :payment_methods)
   end
 end
