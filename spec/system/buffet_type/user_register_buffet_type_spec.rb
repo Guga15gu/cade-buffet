@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Usuário Dono de Buffet cadastra um tipo de buffet' do
-  it 'e deve estar autenticado' do
+  it 'e não pode ser não autentificado' do
     # Arrange
 
     # Act
@@ -9,6 +9,43 @@ describe 'Usuário Dono de Buffet cadastra um tipo de buffet' do
 
     # Assert
     expect(current_path).not_to have_link 'Cadastrar Tipo de Evento'
+  end
+
+  it 'e não pode ser Cliente' do
+    # Arrange
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    # Act
+    login_as client, :scope => :client
+    visit root_path
+
+    # Assert
+    expect(current_path).not_to have_link 'Cadastrar Tipo de Evento'
+  end
+
+  it 'e Cliente não acessa formulário' do
+    # Arrange
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    # Act
+    login_as client, :scope => :client
+    visit new_buffet_type_path
+
+    # Assert
+    expect(current_path).not_to eq new_buffet_type_path
+    expect(current_path).to eq root_path
+    expect(page).to have_content 'Clientes apenas podem visualizar buffet.'
+  end
+
+  it 'e não autentificado não acessa formulário' do
+    # Arrange
+
+    # Act
+    visit new_buffet_type_path
+
+    # Assert
+    expect(current_path).not_to eq new_buffet_type_path
+    expect(current_path).to eq buffet_owner_user_session_path
+    expect(page).to have_content 'Você precisa ser usuário dono de buffet.'
   end
 
   it 'e só acha link para cadastro se existe um buffet' do
@@ -27,7 +64,7 @@ describe 'Usuário Dono de Buffet cadastra um tipo de buffet' do
     # Arrange
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
 
-    buffet = Buffet.create!(
+    Buffet.create!(
       business_name: 'Buffet Delícias',
       corporate_name: 'Empresa de Buffet Ltda',
       registration_number: '12345678901234',
@@ -77,7 +114,7 @@ describe 'Usuário Dono de Buffet cadastra um tipo de buffet' do
     # Arrange
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
 
-    buffet = Buffet.create!(
+    Buffet.create!(
       business_name: 'Buffet Delícias',
       corporate_name: 'Empresa de Buffet Ltda',
       registration_number: '12345678901234',
@@ -137,7 +174,7 @@ describe 'Usuário Dono de Buffet cadastra um tipo de buffet' do
     # Arrange
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
 
-    buffet = Buffet.create!(
+    Buffet.create!(
       business_name: 'Buffet Delícias',
       corporate_name: 'Empresa de Buffet Ltda',
       registration_number: '12345678901234',

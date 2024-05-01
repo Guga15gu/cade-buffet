@@ -19,7 +19,7 @@ describe 'Usuário Dono de Buffet edita um tipo de buffet' do
       payment_methods: 'Cartão de crédito, Dinheiro',
       buffet_owner_user: buffet_owner_user
     )
-    buffet_type = BuffetType.create!(
+    BuffetType.create!(
       name: 'Casamento',
       description: 'Casamento com comida',
       max_capacity_people: 10,
@@ -68,7 +68,7 @@ describe 'Usuário Dono de Buffet edita um tipo de buffet' do
       payment_methods: 'Cartão de crédito, Dinheiro',
       buffet_owner_user: buffet_owner_user
     )
-    buffet_type = BuffetType.create!(
+    BuffetType.create!(
       name: 'Casamento',
       description: 'Casamento com comida',
       max_capacity_people: 10,
@@ -133,7 +133,7 @@ describe 'Usuário Dono de Buffet edita um tipo de buffet' do
       payment_methods: 'Cartão de crédito, Dinheiro',
       buffet_owner_user: buffet_owner_user
     )
-    buffet_type = BuffetType.create!(
+    BuffetType.create!(
       name: 'Casamento',
       description: 'Casamento com comida',
       max_capacity_people: 10,
@@ -224,7 +224,7 @@ describe 'Usuário Dono de Buffet edita um tipo de buffet' do
       buffet: joao_buffet
     )
 
-    gustavo_buffet_type = BuffetType.create!(
+    BuffetType.create!(
       name: 'Casamento Líquido',
       description: 'Casamento com bebida',
       max_capacity_people: 100,
@@ -289,5 +289,89 @@ describe 'Usuário Dono de Buffet edita um tipo de buffet' do
     # Assert
     expect(current_path).to eq buffet_type_path(buffet_type)
     expect(page).to have_content 'Nome: Casamento'
+  end
+
+  it 'e se for não autentificado, pede login' do
+    # Arrange
+    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    buffet = Buffet.create!(
+      business_name: 'Buffet Delícias',
+      corporate_name: 'Empresa de Buffet Ltda',
+      registration_number: '12345678901234',
+      contact_phone: '(11) 1234-5678',
+      address: 'Rua dos Sabores, 123',
+      district: 'Centro',
+      state: 'São Paulo',
+      city: 'São Paulo',
+      postal_code: '12345-678',
+      description: 'Buffet especializado em eventos corporativos',
+      payment_methods: 'Cartão de crédito, Dinheiro',
+      buffet_owner_user: buffet_owner_user
+    )
+    buffet_type = BuffetType.create!(
+      name: 'Casamento',
+      description: 'Casamento com comida',
+      max_capacity_people: 10,
+      min_capacity_people: 5,
+      duration: 120,
+      menu: 'Comida caseira e doce',
+      alcoholic_beverages: true,
+      decoration: true,
+      parking_valet: true,
+      exclusive_address: true,
+      buffet: buffet
+    )
+
+    # Act
+    visit edit_buffet_type_path(buffet_type)
+
+    # Expect
+    expect(current_path).not_to eq edit_buffet_type_path(buffet_type)
+    expect(current_path).to eq new_buffet_owner_user_session_path
+    expect(page).to have_content 'Você precisa ser usuário dono de buffet.'
+  end
+
+  it 'e se for Cliente, volta para home' do
+    # Arrange
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    buffet = Buffet.create!(
+      business_name: 'Buffet Delícias',
+      corporate_name: 'Empresa de Buffet Ltda',
+      registration_number: '12345678901234',
+      contact_phone: '(11) 1234-5678',
+      address: 'Rua dos Sabores, 123',
+      district: 'Centro',
+      state: 'São Paulo',
+      city: 'São Paulo',
+      postal_code: '12345-678',
+      description: 'Buffet especializado em eventos corporativos',
+      payment_methods: 'Cartão de crédito, Dinheiro',
+      buffet_owner_user: buffet_owner_user
+    )
+    buffet_type = BuffetType.create!(
+      name: 'Casamento',
+      description: 'Casamento com comida',
+      max_capacity_people: 10,
+      min_capacity_people: 5,
+      duration: 120,
+      menu: 'Comida caseira e doce',
+      alcoholic_beverages: true,
+      decoration: true,
+      parking_valet: true,
+      exclusive_address: true,
+      buffet: buffet
+    )
+
+    # Act
+    login_as client, :scope => :client
+    visit edit_buffet_type_path(buffet_type)
+
+    # Expect
+    expect(current_path).not_to eq edit_buffet_type_path(buffet_type)
+    expect(current_path).to eq root_path
+    expect(page).to have_content 'Clientes apenas podem visualizar buffet.'
   end
 end

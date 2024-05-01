@@ -5,7 +5,7 @@ describe 'Usuário dono de buffet vê lista de tipos de buffet' do
     # Arrange
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
 
-    buffet = Buffet.create!(
+    Buffet.create!(
       business_name: 'Buffet Delícias',
       corporate_name: 'Empresa de Buffet Ltda',
       registration_number: '12345678901234',
@@ -263,6 +263,80 @@ describe 'Usuário não autentificado vê lista de tipos de buffet' do
 
 
     # Act
+    visit root_path
+    click_on 'Buffet Delícias'
+
+    # Assert
+    expect(page).not_to have_content 'Não há nenhum tipo de Buffet cadastrado.'
+    expect(page).to have_content 'Tipos de Buffet:'
+    expect(page).to have_link 'Casamento'
+    expect(page).to have_link 'Festa'
+    expect(page).to have_link 'Aniversário'
+  end
+end
+
+describe 'Usuário Cliente vê lista de tipos de buffet' do
+  it 'e vê seus tipos de buffet' do
+    # Arrange
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    buffet = Buffet.create!(
+      business_name: 'Buffet Delícias',
+      corporate_name: 'Empresa de Buffet Ltda',
+      registration_number: '12345678901234',
+      contact_phone: '(11) 1234-5678',
+      address: 'Rua dos Sabores, 123',
+      district: 'Centro',
+      state: 'São Paulo',
+      city: 'São Paulo',
+      postal_code: '12345-678',
+      description: 'Buffet especializado em eventos corporativos',
+      payment_methods: 'Cartão de crédito, Dinheiro',
+      buffet_owner_user: buffet_owner_user
+    )
+    BuffetType.create!(
+      name: 'Casamento',
+      description: 'Casamento com comida',
+      max_capacity_people: 10,
+      min_capacity_people: 5,
+      duration: 120,
+      menu: 'Comida caseira e doce',
+      alcoholic_beverages: true,
+      decoration: true,
+      parking_valet: true,
+      exclusive_address: true,
+      buffet: buffet
+    )
+    BuffetType.create!(
+      name: 'Festa',
+      description: 'Festa carnívora',
+      max_capacity_people: 300,
+      min_capacity_people: 100,
+      duration: 810,
+      menu: 'Carne',
+      alcoholic_beverages: false,
+      decoration: true,
+      parking_valet: true,
+      exclusive_address: true,
+      buffet: buffet
+    )
+    BuffetType.create!(
+      name: 'Aniversário',
+      description: 'Aniversário vegano',
+      max_capacity_people: 10,
+      min_capacity_people: 4,
+      duration: 310,
+      menu: 'Doces e vegetais',
+      alcoholic_beverages: true,
+      decoration: false,
+      parking_valet: false,
+      exclusive_address: false,
+      buffet: buffet
+    )
+
+    # Act
+    login_as client, :scope => :client
     visit root_path
     click_on 'Buffet Delícias'
 

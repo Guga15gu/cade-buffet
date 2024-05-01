@@ -265,7 +265,6 @@ describe 'Usuário Dono de Buffet cadastra um preço de tipo de buffet' do
       payment_methods: 'Cartão de crédito, Dinheiro',
       buffet_owner_user: buffet_owner_user
     )
-
     buffet_type = BuffetType.create!(
       name: 'Casamento',
       description: 'Casamento com comida',
@@ -279,7 +278,6 @@ describe 'Usuário Dono de Buffet cadastra um preço de tipo de buffet' do
       exclusive_address: true,
       buffet: buffet
     )
-
     BuffetTypePrice.create!(
       base_price_weekday: 10,
       additional_per_person_weekday: 10,
@@ -317,7 +315,6 @@ describe 'Usuário Dono de Buffet cadastra um preço de tipo de buffet' do
       payment_methods: 'Cartão de crédito, Dinheiro',
       buffet_owner_user: buffet_owner_user
     )
-
     buffet_type = BuffetType.create!(
       name: 'Casamento',
       description: 'Casamento com comida',
@@ -331,7 +328,6 @@ describe 'Usuário Dono de Buffet cadastra um preço de tipo de buffet' do
       exclusive_address: true,
       buffet: buffet
     )
-
     buffet_type_price = BuffetTypePrice.create!(
       base_price_weekday: 10,
       additional_per_person_weekday: 10,
@@ -370,7 +366,6 @@ describe 'Usuário Dono de Buffet cadastra um preço de tipo de buffet' do
       payment_methods: 'Cartão de crédito, Dinheiro',
       buffet_owner_user: buffet_owner_user
     )
-
     buffet_type = BuffetType.create!(
       name: 'Casamento',
       description: 'Casamento com comida',
@@ -394,5 +389,31 @@ describe 'Usuário Dono de Buffet cadastra um preço de tipo de buffet' do
 
     # Expect
     expect(current_path).to eq buffet_type_path(buffet_type)
+  end
+
+  it 'e Cliente não acessa formulário' do
+    # Arrange
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    # Act
+    login_as client, :scope => :client
+    visit new_buffet_type_price_path
+
+    # Assert
+    expect(current_path).not_to eq new_buffet_type_price_path
+    expect(current_path).to eq root_path
+    expect(page).to have_content 'Clientes apenas podem visualizar buffet.'
+  end
+
+  it 'e não autentificado não acessa formulário' do
+    # Arrange
+
+    # Act
+    visit new_buffet_type_price_path
+
+    # Assert
+    expect(current_path).not_to eq new_buffet_type_price_path
+    expect(current_path).to eq buffet_owner_user_session_path
+    expect(page).to have_content 'Você precisa ser usuário dono de buffet.'
   end
 end

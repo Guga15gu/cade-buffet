@@ -64,7 +64,7 @@ describe 'Usuário Dono de Buffet vê um tipo de buffet' do
     expect(page).to have_content('Endereço exclusivo: Indisponível')
   end
 
-  it 'e volta para tela inicial' do
+  it 'e volta para tela inicial pelo Home' do
     # Arrange
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
 
@@ -305,6 +305,107 @@ describe 'Usuário não autentificado vê um tipo de buffet' do
     )
 
     # Act
+    visit(root_path)
+    click_on 'Buffet Delícias'
+    click_on 'Casamento'
+
+    # Assert
+    expect(current_path).to eq buffet_type_path(buffet_type)
+    expect(page).not_to have_link 'Editar tipo de Buffet'
+  end
+end
+
+describe 'Usuário Cliente vê um tipo de buffet' do
+  it 'a partir da tela inicial' do
+    # Arrange
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    buffet = Buffet.create!(
+      business_name: 'Buffet Delícias',
+      corporate_name: 'Empresa de Buffet Ltda',
+      registration_number: '12345678901234',
+      contact_phone: '(11) 1234-5678',
+      address: 'Rua dos Sabores, 123',
+      district: 'Centro',
+      state: 'São Paulo',
+      city: 'São Paulo',
+      postal_code: '12345-678',
+      description: 'Buffet especializado em eventos corporativos',
+      payment_methods: 'Cartão de crédito, Dinheiro',
+      buffet_owner_user: buffet_owner_user
+    )
+    buffet_type = BuffetType.create!(
+      name: 'Casamento',
+      description: 'Casamento com comida',
+      max_capacity_people: 100,
+      min_capacity_people: 1,
+      duration: 120,
+      menu: 'Comida caseira e doce',
+      alcoholic_beverages: true,
+      decoration: true,
+      parking_valet: true,
+      exclusive_address: false,
+      buffet: buffet
+    )
+
+    # Act
+    login_as client, :scope => :client
+    visit(root_path)
+    click_on 'Buffet Delícias'
+    click_on 'Casamento'
+
+    # Assert
+    # Expect
+    expect(current_path).to eq buffet_type_path(buffet_type)
+    expect(page).to have_content 'Tipo de Buffet'
+    expect(page).to have_content 'Nome: Casamento'
+    expect(page).to have_content 'Descrição: Casamento com comida'
+    expect(page).to have_content('Quantidade máxima de pessoas: 100 pessoas')
+    expect(page).to have_content('Quantidade mínima de pessoas: 1 pessoa')
+    expect(page).to have_content('Duração: 120 minutos')
+    expect(page).to have_content('Cardápio: Comida caseira e doce')
+    expect(page).to have_content('Bebidas alcoólicas: Disponível')
+    expect(page).to have_content('Decoração: Disponível')
+    expect(page).to have_content('Serviço de estacionamento: Disponível')
+    expect(page).to have_content('Endereço exclusivo: Indisponível')
+  end
+
+  it 'e não vê botão editar' do
+    # Arrange
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    buffet = Buffet.create!(
+      business_name: 'Buffet Delícias',
+      corporate_name: 'Empresa de Buffet Ltda',
+      registration_number: '12345678901234',
+      contact_phone: '(11) 1234-5678',
+      address: 'Rua dos Sabores, 123',
+      district: 'Centro',
+      state: 'São Paulo',
+      city: 'São Paulo',
+      postal_code: '12345-678',
+      description: 'Buffet especializado em eventos corporativos',
+      payment_methods: 'Cartão de crédito, Dinheiro',
+      buffet_owner_user: buffet_owner_user
+    )
+    buffet_type = BuffetType.create!(
+      name: 'Casamento',
+      description: 'Casamento com comida',
+      max_capacity_people: 100,
+      min_capacity_people: 1,
+      duration: 120,
+      menu: 'Comida caseira e doce',
+      alcoholic_beverages: true,
+      decoration: true,
+      parking_valet: true,
+      exclusive_address: false,
+      buffet: buffet
+    )
+
+    # Act
+    login_as client, :scope => :client
     visit(root_path)
     click_on 'Buffet Delícias'
     click_on 'Casamento'

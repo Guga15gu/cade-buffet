@@ -308,3 +308,110 @@ describe 'Usuário não autentificado vê preço de tipo de evento' do
 
   end
 end
+
+describe 'Usuário Cliente vê preço de tipo de evento' do
+  it 'a apartir da tela inicial' do
+    # Arrange
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    buffet = Buffet.create!(
+      business_name: 'Buffet Delícias',
+      corporate_name: 'Empresa de Buffet Ltda',
+      registration_number: '12345678901234',
+      contact_phone: '(11) 1234-5678',
+      address: 'Rua dos Sabores, 123',
+      district: 'Centro',
+      state: 'São Paulo',
+      city: 'São Paulo',
+      postal_code: '12345-678',
+      description: 'Buffet especializado em eventos corporativos',
+      payment_methods: 'Cartão de crédito, Dinheiro',
+      buffet_owner_user: buffet_owner_user
+    )
+
+    buffet_type = BuffetType.create!(
+      name: 'Casamento',
+      description: 'Casamento com comida',
+      max_capacity_people: 10,
+      min_capacity_people: 5,
+      duration: 120,
+      menu: 'Comida caseira e doce',
+      alcoholic_beverages: true,
+      decoration: true,
+      parking_valet: true,
+      exclusive_address: true,
+      buffet: buffet
+    )
+
+    buffet_type_price = BuffetTypePrice.create!(
+      base_price_weekday: 10,
+      additional_per_person_weekday: 11,
+      additional_per_hour_weekday: 20,
+      base_price_weekend: 21,
+      additional_per_person_weekend: 30,
+      additional_per_hour_weekend: 31,
+      buffet_type: buffet_type
+    )
+
+    # Assert
+    login_as client, :scope => :client
+    visit root_path
+    click_on 'Buffet Delícias'
+    click_on 'Casamento'
+    click_on 'Preço'
+
+    # Assert
+    expect(current_path).to eq buffet_type_price_path(buffet_type_price)
+    expect(page).to have_content 'Preço do tipo de Buffet Casamento'
+    expect(page).to have_content 'Preço base em dia de semana: 10'
+    expect(page).to have_content 'Adicional por pessoa em dia de semana: 11'
+    expect(page).to have_content 'Adicional por hora em dia de semana: 20'
+    expect(page).to have_content 'Preço base em fim de semana: 21'
+    expect(page).to have_content 'Adicional por pessoa em fim de semana: 30'
+    expect(page).to have_content 'Adicional por hora em fim de semana: 31'
+  end
+
+  it 'mas não acha botão registrar preço' do
+    # Arrange
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    buffet = Buffet.create!(
+      business_name: 'Buffet Delícias',
+      corporate_name: 'Empresa de Buffet Ltda',
+      registration_number: '12345678901234',
+      contact_phone: '(11) 1234-5678',
+      address: 'Rua dos Sabores, 123',
+      district: 'Centro',
+      state: 'São Paulo',
+      city: 'São Paulo',
+      postal_code: '12345-678',
+      description: 'Buffet especializado em eventos corporativos',
+      payment_methods: 'Cartão de crédito, Dinheiro',
+      buffet_owner_user: buffet_owner_user
+    )
+    BuffetType.create!(
+      name: 'Casamento',
+      description: 'Casamento com comida',
+      max_capacity_people: 10,
+      min_capacity_people: 5,
+      duration: 120,
+      menu: 'Comida caseira e doce',
+      alcoholic_beverages: true,
+      decoration: true,
+      parking_valet: true,
+      exclusive_address: true,
+      buffet: buffet
+    )
+
+    # Assert
+    login_as client, :scope => :client
+    visit root_path
+    click_on 'Buffet Delícias'
+    click_on 'Casamento'
+
+    # Assert
+    expect(page).not_to have_link 'Cadastrar preço'
+  end
+end

@@ -34,7 +34,7 @@ describe 'Usuário Dono de Buffet edita um preço de tipo de buffet' do
       buffet: buffet
     )
 
-    buffet_type_price = BuffetTypePrice.create!(
+    BuffetTypePrice.create!(
       base_price_weekday: 10,
       additional_per_person_weekday: 10,
       additional_per_hour_weekday: 20,
@@ -95,7 +95,7 @@ describe 'Usuário Dono de Buffet edita um preço de tipo de buffet' do
       buffet: buffet
     )
 
-    buffet_type_price = BuffetTypePrice.create!(
+    BuffetTypePrice.create!(
       base_price_weekday: 10,
       additional_per_person_weekday: 10,
       additional_per_hour_weekday: 20,
@@ -164,7 +164,7 @@ describe 'Usuário Dono de Buffet edita um preço de tipo de buffet' do
       buffet: buffet
     )
 
-    buffet_type_price = BuffetTypePrice.create!(
+    BuffetTypePrice.create!(
       base_price_weekday: 10,
       additional_per_person_weekday: 10,
       additional_per_hour_weekday: 20,
@@ -267,7 +267,7 @@ describe 'Usuário Dono de Buffet edita um preço de tipo de buffet' do
       additional_per_hour_weekend: 40,
       buffet_type: joao_buffet_type
     )
-    gustavo_buffet_type_price = BuffetTypePrice.create!(
+    BuffetTypePrice.create!(
       base_price_weekday: 100,
       additional_per_person_weekday: 100,
       additional_per_hour_weekday: 200,
@@ -319,7 +319,7 @@ describe 'Usuário Dono de Buffet edita um preço de tipo de buffet' do
       buffet: buffet
     )
 
-    buffet_type_price = BuffetTypePrice.create!(
+    BuffetTypePrice.create!(
       base_price_weekday: 10,
       additional_per_person_weekday: 10,
       additional_per_hour_weekday: 20,
@@ -346,6 +346,58 @@ end
 describe 'Usuário não autentificado edita um preço de tipo de buffet' do
   it 'mas não acha link para editar' do
     # Arrange
+    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    buffet = Buffet.create!(
+      business_name: 'Buffet Delícias',
+      corporate_name: 'Empresa de Buffet Ltda',
+      registration_number: '12345678901234',
+      contact_phone: '(11) 1234-5678',
+      address: 'Rua dos Sabores, 123',
+      district: 'Centro',
+      state: 'São Paulo',
+      city: 'São Paulo',
+      postal_code: '12345-678',
+      description: 'Buffet especializado em eventos corporativos',
+      payment_methods: 'Cartão de crédito, Dinheiro',
+      buffet_owner_user: buffet_owner_user
+    )
+
+    buffet_type = BuffetType.create!(
+      name: 'Casamento',
+      description: 'Casamento com comida',
+      max_capacity_people: 10,
+      min_capacity_people: 5,
+      duration: 120,
+      menu: 'Comida caseira e doce',
+      alcoholic_beverages: true,
+      decoration: true,
+      parking_valet: true,
+      exclusive_address: true,
+      buffet: buffet
+    )
+
+    BuffetTypePrice.create!(
+      base_price_weekday: 10,
+      additional_per_person_weekday: 10,
+      additional_per_hour_weekday: 20,
+      base_price_weekend: 20,
+      additional_per_person_weekend: 20,
+      additional_per_hour_weekend: 40,
+      buffet_type: buffet_type
+    )
+
+    # Act
+    visit root_path
+    click_on 'Buffet Delícias'
+    click_on 'Casamento'
+    click_on 'Preço'
+
+    # Assert
+    expect(page).not_to have_link('Editar preço')
+  end
+
+  it 'e não acessa formulário' do
     # Arrange
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
 
@@ -389,6 +441,60 @@ describe 'Usuário não autentificado edita um preço de tipo de buffet' do
     )
 
     # Act
+    visit edit_buffet_type_price_path(buffet_type_price)
+
+    # Assert
+    expect(current_path).not_to eq edit_buffet_type_price_path(buffet_type_price)
+    expect(current_path).to eq buffet_owner_user_session_path
+    expect(page).to have_content 'Você precisa ser usuário dono de buffet.'
+  end
+end
+
+describe 'Usuário Cliente edita um preço de tipo de buffet' do
+  it 'mas não acha link para editar' do
+    # Arrange
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    buffet = Buffet.create!(
+      business_name: 'Buffet Delícias',
+      corporate_name: 'Empresa de Buffet Ltda',
+      registration_number: '12345678901234',
+      contact_phone: '(11) 1234-5678',
+      address: 'Rua dos Sabores, 123',
+      district: 'Centro',
+      state: 'São Paulo',
+      city: 'São Paulo',
+      postal_code: '12345-678',
+      description: 'Buffet especializado em eventos corporativos',
+      payment_methods: 'Cartão de crédito, Dinheiro',
+      buffet_owner_user: buffet_owner_user
+    )
+    buffet_type = BuffetType.create!(
+      name: 'Casamento',
+      description: 'Casamento com comida',
+      max_capacity_people: 10,
+      min_capacity_people: 5,
+      duration: 120,
+      menu: 'Comida caseira e doce',
+      alcoholic_beverages: true,
+      decoration: true,
+      parking_valet: true,
+      exclusive_address: true,
+      buffet: buffet
+    )
+    BuffetTypePrice.create!(
+      base_price_weekday: 10,
+      additional_per_person_weekday: 10,
+      additional_per_hour_weekday: 20,
+      base_price_weekend: 20,
+      additional_per_person_weekend: 20,
+      additional_per_hour_weekend: 40,
+      buffet_type: buffet_type
+    )
+
+    # Act
+    login_as client, :scope => :client
     visit root_path
     click_on 'Buffet Delícias'
     click_on 'Casamento'
@@ -396,5 +502,57 @@ describe 'Usuário não autentificado edita um preço de tipo de buffet' do
 
     # Assert
     expect(page).not_to have_link('Editar preço')
+  end
+
+  it 'e não acessa formulário' do
+    # Arrange
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    buffet = Buffet.create!(
+      business_name: 'Buffet Delícias',
+      corporate_name: 'Empresa de Buffet Ltda',
+      registration_number: '12345678901234',
+      contact_phone: '(11) 1234-5678',
+      address: 'Rua dos Sabores, 123',
+      district: 'Centro',
+      state: 'São Paulo',
+      city: 'São Paulo',
+      postal_code: '12345-678',
+      description: 'Buffet especializado em eventos corporativos',
+      payment_methods: 'Cartão de crédito, Dinheiro',
+      buffet_owner_user: buffet_owner_user
+    )
+    buffet_type = BuffetType.create!(
+      name: 'Casamento',
+      description: 'Casamento com comida',
+      max_capacity_people: 10,
+      min_capacity_people: 5,
+      duration: 120,
+      menu: 'Comida caseira e doce',
+      alcoholic_beverages: true,
+      decoration: true,
+      parking_valet: true,
+      exclusive_address: true,
+      buffet: buffet
+    )
+    buffet_type_price = BuffetTypePrice.create!(
+      base_price_weekday: 10,
+      additional_per_person_weekday: 10,
+      additional_per_hour_weekday: 20,
+      base_price_weekend: 20,
+      additional_per_person_weekend: 20,
+      additional_per_hour_weekend: 40,
+      buffet_type: buffet_type
+    )
+
+    # Act
+    login_as client, :scope => :client
+    visit edit_buffet_type_price_path(buffet_type_price)
+
+    # Assert
+    expect(current_path).not_to eq edit_buffet_type_price_path(buffet_type_price)
+    expect(current_path).to eq root_path
+    expect(page).to have_content 'Clientes apenas podem visualizar buffet.'
   end
 end
