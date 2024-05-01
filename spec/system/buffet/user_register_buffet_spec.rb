@@ -1,12 +1,21 @@
 require 'rails_helper'
 
-describe 'Usuário cadastra um buffet' do
-  it 'e deve estar autenticado' do
+describe 'Usuário Dono de Buffet cadastra um buffet' do
+  it 'e não pode ser usuário não autentificado' do
     # Arrange
     #
     # Act
-    visit root_path
-    click_on 'Registrar Buffet'
+    visit new_buffet_path
+    # Assert
+    expect(current_path).to eq new_buffet_owner_user_session_path
+  end
+
+  it 'e não pode ser usuário Cliente' do
+    # Arrange
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    # Act
+    login_as client, :scope => :client
+    visit new_buffet_path
     # Assert
     expect(current_path).to eq new_buffet_owner_user_session_path
   end
@@ -53,7 +62,7 @@ describe 'Usuário cadastra um buffet' do
     # Arrange
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
 
-    buffet = Buffet.create!(
+    Buffet.create!(
       business_name: 'Buffet Delícias',
       corporate_name: 'Empresa de Buffet Ltda',
       registration_number: '12345678901234',

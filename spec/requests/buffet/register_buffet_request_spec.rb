@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'Usuário registra um buffet' do
   it 'e deve estar autenticado' do
     # Arrange
-    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
 
     buffet = { :buffet => {
       business_name: 'Buffet Delícias',
@@ -31,7 +31,7 @@ describe 'Usuário registra um buffet' do
     # Arrange
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
 
-    buffet = Buffet.create!(
+    Buffet.create!(
       business_name: 'Buffet Delícias',
       corporate_name: 'Empresa de Buffet Ltda',
       registration_number: '12345678901234',

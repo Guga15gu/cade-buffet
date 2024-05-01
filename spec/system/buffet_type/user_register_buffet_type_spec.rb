@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Usuário cadastra um tipo de buffet' do
+describe 'Usuário Dono de Buffet cadastra um tipo de buffet' do
   it 'e deve estar autenticado' do
     # Arrange
 

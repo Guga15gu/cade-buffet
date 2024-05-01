@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Usuário vê lista de tipos de buffet' do
+describe 'Usuário dono de buffet vê lista de tipos de buffet' do
   it 'e está vazia' do
     # Arrange
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')

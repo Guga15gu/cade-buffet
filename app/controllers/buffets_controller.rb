@@ -1,6 +1,6 @@
 class BuffetsController < ApplicationController
-  before_action :authenticate_buffet_owner_user!, only: [:new, :create, :edit, :update]
-  before_action :require_and_set_buffet, only: [:edit, :update]
+  before_action :authenticate_buffet_owner_user!, only: [:new, :create, :update]
+  before_action :require_and_set_own_buffet, only: [:edit, :update]
   before_action :check_if_already_has_buffet, only: [:new, :create]
   before_action :check_buffet_owner_user, only: [:edit, :update]
 
@@ -22,6 +22,10 @@ class BuffetsController < ApplicationController
 
   def show
     @buffet = Buffet.find(params[:id])
+
+    if buffet_owner_user_signed_in? and @buffet.buffet_owner_user != current_buffet_owner_user
+      return redirect_to root_path, alert: 'Você não é dono desse buffet'
+    end
   end
 
   def edit
@@ -38,6 +42,10 @@ class BuffetsController < ApplicationController
   end
 
   def search
+    if buffet_owner_user_signed_in?
+      return redirect_to root_path, alert: 'Você como dono de buffet, apenas pode gerenciar seu buffet'
+    end
+
     @query = params[:query]
 
     buffets_by_city_or_state = Buffet.where("business_name LIKE ? OR city LIKE ?", "%#{@query}%", "%#{@query}%")
@@ -48,7 +56,15 @@ class BuffetsController < ApplicationController
 
   private
 
-  def require_and_set_buffet
+  def require_and_set_own_buffet
+    if client_signed_in?
+      return redirect_to root_path, alert: 'Você como cliente não pode editar um buffet.'
+    end
+
+    unless buffet_owner_user_signed_in?
+      return redirect_to root_path, alert: 'Você precisa ser dono do buffet para poder editar ele.'
+    end
+    
     if Buffet.exists?(buffet_owner_user: current_buffet_owner_user)
       @buffet = Buffet.find_by(buffet_owner_user: current_buffet_owner_user)
     else

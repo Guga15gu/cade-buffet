@@ -1,0 +1,7 @@
+pt-BR:
+  activerecord:
+    models:
+      client: Usuário Cliente
+    attributes:
+      client:
+        name: 'Nome'

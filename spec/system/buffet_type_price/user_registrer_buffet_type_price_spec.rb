@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Usuário cadastra um preço de tipo de buffet' do
+describe 'Usuário Dono de Buffet cadastra um preço de tipo de buffet' do
   it 'e deve estar autenticado' do
     # Arrange
 
@@ -31,7 +31,7 @@ describe 'Usuário cadastra um preço de tipo de buffet' do
       buffet_owner_user: buffet_owner_user
     )
 
-    buffet_type = BuffetType.create!(
+    BuffetType.create!(
       name: 'Casamento',
       description: 'Casamento com comida',
       max_capacity_people: 10,
@@ -82,7 +82,7 @@ describe 'Usuário cadastra um preço de tipo de buffet' do
       buffet_owner_user: buffet_owner_user
     )
 
-    buffet_type = BuffetType.create!(
+    BuffetType.create!(
       name: 'Casamento',
       description: 'Casamento com comida',
       max_capacity_people: 10,
@@ -139,7 +139,7 @@ describe 'Usuário cadastra um preço de tipo de buffet' do
       buffet_owner_user: buffet_owner_user
     )
 
-    buffet_type = BuffetType.create!(
+    BuffetType.create!(
       name: 'Casamento',
       description: 'Casamento com comida',
       max_capacity_people: 10,
@@ -223,7 +223,7 @@ describe 'Usuário cadastra um preço de tipo de buffet' do
       exclusive_address: true,
       buffet: joao_buffet
     )
-    gustavo_buffet_type = BuffetType.create!(
+    BuffetType.create!(
       name: 'Casamento Líquido',
       description: 'Casamento com bebida',
       max_capacity_people: 100,
@@ -280,7 +280,7 @@ describe 'Usuário cadastra um preço de tipo de buffet' do
       buffet: buffet
     )
 
-    buffet_type_price = BuffetTypePrice.create!(
+    BuffetTypePrice.create!(
       base_price_weekday: 10,
       additional_per_person_weekday: 10,
       additional_per_hour_weekday: 20,

@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-describe 'Usuário edita um buffet' do
+describe 'Usuário Dono de Buffet edita um buffet' do
   it 'a partir da tela inicial' do
     # Arrange
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
 
-    buffet = Buffet.create!(
+    Buffet.create!(
       business_name: 'Buffet Delícias',
       corporate_name: 'Empresa de Buffet Ltda',
       registration_number: '12345678901234',
@@ -45,7 +45,7 @@ describe 'Usuário edita um buffet' do
     # Arrange
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
 
-    buffet = Buffet.create!(
+    Buffet.create!(
       business_name: 'Buffet Delícias',
       corporate_name: 'Empresa de Buffet Ltda',
       registration_number: '12345678901234',
@@ -97,7 +97,7 @@ describe 'Usuário edita um buffet' do
     # Arrange
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
 
-    buffet = Buffet.create!(
+    Buffet.create!(
       business_name: 'Buffet Delícias',
       corporate_name: 'Empresa de Buffet Ltda',
       registration_number: '12345678901234',
@@ -165,7 +165,7 @@ describe 'Usuário edita um buffet' do
       buffet_owner_user: joao
     )
 
-    gustavo_buffet = Buffet.create!(
+    Buffet.create!(
       business_name: 'Buffet Redondo',
       corporate_name: 'Empresa de Circular Ltda',
       registration_number: '234236546',
@@ -219,5 +219,62 @@ describe 'Usuário edita um buffet' do
     # Assert
     expect(current_path).to eq buffet_path(buffet)
     expect(page).to have_content 'Nome Fantasia: Buffet Delícias'
+  end
+
+  it 'se não for usuário não autentificado' do
+    # Arrange
+    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    buffet = Buffet.create!(
+      business_name: 'Buffet Delícias',
+      corporate_name: 'Empresa de Buffet Ltda',
+      registration_number: '12345678901234',
+      contact_phone: '(11) 1234-5678',
+      address: 'Rua dos Sabores, 123',
+      district: 'Centro',
+      state: 'São Paulo',
+      city: 'São Paulo',
+      postal_code: '12345-678',
+      description: 'Buffet especializado em eventos corporativos',
+      payment_methods: 'Cartão de crédito, Dinheiro',
+      buffet_owner_user: buffet_owner_user
+    )
+    # Act
+    visit edit_buffet_path(buffet)
+
+    # Assert
+    expect(current_path).not_to eq edit_buffet_path(buffet)
+    expect(current_path).to eq root_path
+    expect(page).to have_content 'Você precisa ser dono do buffet para poder editar ele.'
+  end
+
+  it 'se não for usuário Cliente' do
+    # Arrange
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+    buffet = Buffet.create!(
+      business_name: 'Buffet Delícias',
+      corporate_name: 'Empresa de Buffet Ltda',
+      registration_number: '12345678901234',
+      contact_phone: '(11) 1234-5678',
+      address: 'Rua dos Sabores, 123',
+      district: 'Centro',
+      state: 'São Paulo',
+      city: 'São Paulo',
+      postal_code: '12345-678',
+      description: 'Buffet especializado em eventos corporativos',
+      payment_methods: 'Cartão de crédito, Dinheiro',
+      buffet_owner_user: buffet_owner_user
+    )
+    # Act
+    login_as client, :scope => :client
+    visit edit_buffet_path(buffet)
+
+    # Assert
+    expect(current_path).not_to eq edit_buffet_path(buffet)
+    expect(current_path).to eq root_path
+    expect(page).to have_content 'Você como cliente não pode editar um buffet.'
   end
 end

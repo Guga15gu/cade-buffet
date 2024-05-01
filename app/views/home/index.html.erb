@@ -1,10 +1,8 @@
-<% if @buffet.nil? %>
-  <div> <%= link_to 'Registrar Buffet', new_buffet_path %> </div>
-<% end %>
-
 <% if buffet_owner_user_signed_in? %>
 
-  <% unless @buffet.nil? %>
+  <% if @buffet.nil? %>
+    <div> <%= link_to 'Registrar Buffet', new_buffet_path %> </div>
+  <% else %>
     <div> <%= link_to @buffet.business_name, buffet_path(@buffet) %> </div>
 
     <% if @buffet.buffet_types.empty?%>
@@ -19,6 +17,7 @@
         </ul>
       </div>
     <% end %>
+    
   <% end %>
 
 <% else %>

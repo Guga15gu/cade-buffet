@@ -1,7 +1,7 @@
 pt-BR:
   activerecord:
     models:
-      buffet_owner_user: Usuário Dono de Buffet
+      buffet_owner_user: Usuário dono de buffet
     attributes:
       buffet_owner_user:
         name: 'Nome'

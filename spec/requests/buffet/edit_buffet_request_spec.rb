@@ -46,7 +46,7 @@ describe 'Usuário edita um buffet' do
       payment_methods: 'Cartão de crédito, Dinheiro',
       buffet_owner_user: joao
     )
-    gustavo_buffet = Buffet.create!(
+    Buffet.create!(
       business_name: 'Buffet Redondo',
       corporate_name: 'Empresa de Circular Ltda',
       registration_number: '234236546',

@@ -13,18 +13,27 @@
     <head>
       <nav>
         <% if buffet_owner_user_signed_in? %>
-          <%= current_buffet_owner_user.name %> |
+          Dono de Buffet: <%= current_buffet_owner_user.name %> |
           <%= current_buffet_owner_user.email %> |
           <%= button_to 'Sair', destroy_buffet_owner_user_session_path, method: :delete %>
-          
-          <%= link_to 'Home', root_path %> |
 
           <% if Buffet.exists?(buffet_owner_user: current_buffet_owner_user)%>
             <%= link_to 'Registrar Tipo de Evento', new_buffet_type_path %>    
           <% end %>
-        <% else %>
-          | <%= link_to 'Entrar', new_buffet_owner_user_session_path %>
         <% end %>
+
+        <% if client_signed_in?  %>
+          Cliente: <%= current_client.name %> |
+          <%= current_client.email %> |
+          <%= button_to 'Sair', destroy_client_session_path, method: :delete %>
+        <% end %>
+        
+        <%unless buffet_owner_user_signed_in? or client_signed_in? %>
+          | <%= link_to 'Entrar como dono de buffet', new_buffet_owner_user_session_path %>
+          | <%= link_to 'Entrar como cliente', client_session_path %>
+        <% end %>
+
+        <div><%= link_to 'Home', root_path %></div>
       </nav>
     </head>
     <main>
