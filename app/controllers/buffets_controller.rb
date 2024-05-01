@@ -1,7 +1,7 @@
 class BuffetsController < ApplicationController
   before_action :authenticate, only: [:new, :create, :edit, :update]
   before_action :check_if_already_has_buffet, only: [:new, :create]
-
+  before_action :require_and_set_own_buffet, only: [:edit, :update]
 
   def new
     @buffet = Buffet.new
@@ -28,19 +28,15 @@ class BuffetsController < ApplicationController
   end
 
   def edit
-    require_and_set_own_buffet
   end
 
   def update
-    require_and_set_own_buffet
-
     if @buffet.update(buffet_params)
-      redirect_to @buffet, notice: 'Seu Buffet foi editado com sucesso!'
+      return redirect_to @buffet, notice: 'Seu Buffet foi editado com sucesso!'
     else
       flash.now[:notice] = 'Não foi possível atualizar o Buffet'
       render 'edit'
     end
-
   end
 
   def search
@@ -61,8 +57,7 @@ class BuffetsController < ApplicationController
   def authenticate
     if client_signed_in?
       return redirect_to root_path, alert: 'Clientes apenas podem visualizar buffet.'
-    end
-    unless buffet_owner_user_signed_in?
+    elsif not buffet_owner_user_signed_in?
       return redirect_to new_buffet_owner_user_session_path, alert: 'Você precisa ser usuário dono de buffet.'
     end
   end
