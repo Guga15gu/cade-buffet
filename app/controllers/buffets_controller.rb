@@ -1,8 +1,7 @@
 class BuffetsController < ApplicationController
-  before_action :authenticate_buffet_owner_user!, only: [:new, :create, :update]
-  before_action :require_and_set_own_buffet, only: [:edit, :update]
+  before_action :authenticate, only: [:new, :create, :edit, :update]
   before_action :check_if_already_has_buffet, only: [:new, :create]
-  before_action :check_buffet_owner_user, only: [:edit, :update]
+
 
   def new
     @buffet = Buffet.new
@@ -29,9 +28,12 @@ class BuffetsController < ApplicationController
   end
 
   def edit
+    require_and_set_own_buffet
   end
 
   def update
+    require_and_set_own_buffet
+
     if @buffet.update(buffet_params)
       redirect_to @buffet, notice: 'Seu Buffet foi editado com sucesso!'
     else
@@ -56,19 +58,19 @@ class BuffetsController < ApplicationController
 
   private
 
-  def require_and_set_own_buffet
+  def authenticate
     if client_signed_in?
-      return redirect_to root_path, alert: 'Você como cliente não pode editar um buffet.'
+      return redirect_to root_path, alert: 'Clientes apenas podem visualizar buffet.'
     end
-
     unless buffet_owner_user_signed_in?
-      return redirect_to root_path, alert: 'Você precisa ser dono do buffet para poder editar ele.'
+      return redirect_to new_buffet_owner_user_session_path, alert: 'Você precisa ser usuário dono de buffet.'
     end
-    
-    if Buffet.exists?(buffet_owner_user: current_buffet_owner_user)
-      @buffet = Buffet.find_by(buffet_owner_user: current_buffet_owner_user)
-    else
-      return redirect_to new_buffet_path, alert: 'Como Dono de Buffet, precisas cadastrar seu buffet!'
+  end
+
+  def require_and_set_own_buffet
+    @buffet = Buffet.find(params[:id])
+    if @buffet.buffet_owner_user != current_buffet_owner_user
+      return redirect_to root_path, alert: 'Você não possui acesso a este buffet.'
     end
   end
 
@@ -77,13 +79,6 @@ class BuffetsController < ApplicationController
       buffet = Buffet.find_by(buffet_owner_user: current_buffet_owner_user)
 
       return redirect_to buffet, alert: 'Você já é dono de um Buffet, e apenas podes ser Dono de um Buffet!'
-    end
-  end
-
-  def check_buffet_owner_user
-    @buffet = Buffet.find(params[:id])
-    if @buffet.buffet_owner_user != current_buffet_owner_user
-      return redirect_to root_path, alert: 'Você não possui acesso a este buffet.'
     end
   end
 

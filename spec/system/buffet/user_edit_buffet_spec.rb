@@ -244,8 +244,8 @@ describe 'Usuário Dono de Buffet edita um buffet' do
 
     # Assert
     expect(current_path).not_to eq edit_buffet_path(buffet)
-    expect(current_path).to eq root_path
-    expect(page).to have_content 'Você precisa ser dono do buffet para poder editar ele.'
+    expect(current_path).to eq new_buffet_owner_user_session_path
+    expect(page).to have_content 'Você precisa ser usuário dono de buffet.'
   end
 
   it 'se não for usuário Cliente' do
@@ -275,6 +275,6 @@ describe 'Usuário Dono de Buffet edita um buffet' do
     # Assert
     expect(current_path).not_to eq edit_buffet_path(buffet)
     expect(current_path).to eq root_path
-    expect(page).to have_content 'Você como cliente não pode editar um buffet.'
+    expect(page).to have_content 'Clientes apenas podem visualizar buffet.'
   end
 end

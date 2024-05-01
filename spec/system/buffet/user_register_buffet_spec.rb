@@ -8,6 +8,7 @@ describe 'Usuário Dono de Buffet cadastra um buffet' do
     visit new_buffet_path
     # Assert
     expect(current_path).to eq new_buffet_owner_user_session_path
+    expect(page).to have_content 'Você precisa ser usuário dono de buffet.'
   end
 
   it 'e não pode ser usuário Cliente' do
@@ -17,7 +18,9 @@ describe 'Usuário Dono de Buffet cadastra um buffet' do
     login_as client, :scope => :client
     visit new_buffet_path
     # Assert
-    expect(current_path).to eq new_buffet_owner_user_session_path
+    expect(current_path).not_to eq new_buffet_path
+    expect(current_path).to eq root_path
+    expect(page).to have_content 'Clientes apenas podem visualizar buffet.'
   end
 
   it 'com sucesso' do
