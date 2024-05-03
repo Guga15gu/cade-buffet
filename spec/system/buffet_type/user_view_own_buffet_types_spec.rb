@@ -278,7 +278,7 @@ end
 describe 'Usuário Cliente vê lista de tipos de buffet' do
   it 'e vê seus tipos de buffet' do
     # Arrange
-    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf:  61445385007)
 
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
     buffet = Buffet.create!(

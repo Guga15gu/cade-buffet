@@ -393,7 +393,7 @@ describe 'Usuário Dono de Buffet cadastra um preço de tipo de buffet' do
 
   it 'e Cliente não acessa formulário' do
     # Arrange
-    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf:  61445385007)
 
     # Act
     login_as client, :scope => :client

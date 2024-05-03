@@ -250,7 +250,7 @@ describe 'Usuário Dono de Buffet edita um buffet' do
 
   it 'se não for usuário Cliente' do
     # Arrange
-    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf:  61445385007)
 
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
 

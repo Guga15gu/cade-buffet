@@ -318,7 +318,7 @@ end
 describe 'Usuário Cliente vê um tipo de buffet' do
   it 'a partir da tela inicial' do
     # Arrange
-    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf:  61445385007)
 
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
     buffet = Buffet.create!(
@@ -373,7 +373,7 @@ describe 'Usuário Cliente vê um tipo de buffet' do
 
   it 'e não vê botão editar' do
     # Arrange
-    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf:  61445385007)
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
 
     buffet = Buffet.create!(

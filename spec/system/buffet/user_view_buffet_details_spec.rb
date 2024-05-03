@@ -239,7 +239,7 @@ end
 describe 'Usuário Cliente vê Buffet' do
   it 'a apartir da tela inicial' do
     # Arrange
-    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf:  61445385007)
 
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
     buffet = Buffet.create!(
@@ -279,7 +279,7 @@ describe 'Usuário Cliente vê Buffet' do
 
   it 'e não vê botão de editar' do
     # Arrange
-    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf:  61445385007)
 
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
     Buffet.create!(
@@ -308,7 +308,7 @@ describe 'Usuário Cliente vê Buffet' do
 
   it 'e volta para tela inicial' do
     # Arrange
-    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf:  61445385007)
 
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
     Buffet.create!(

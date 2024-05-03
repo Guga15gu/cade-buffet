@@ -21,6 +21,7 @@ describe 'Usuário Cliente cria conta' do
     click_on 'Criar uma conta'
     fill_in 'Nome', with: 'Maria'
     fill_in 'E-mail', with: 'maria@email.com'
+    fill_in 'CPF', with: '61445385007'
     fill_in 'Senha', with: 'password'
     fill_in 'Confirme sua senha', with: 'password'
     click_on 'Criar conta'

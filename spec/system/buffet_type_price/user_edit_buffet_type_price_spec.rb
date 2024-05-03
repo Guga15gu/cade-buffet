@@ -453,7 +453,7 @@ end
 describe 'Usuário Cliente edita um preço de tipo de buffet' do
   it 'mas não acha link para editar' do
     # Arrange
-    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf:  61445385007)
 
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
     buffet = Buffet.create!(
@@ -506,7 +506,7 @@ describe 'Usuário Cliente edita um preço de tipo de buffet' do
 
   it 'e não acessa formulário' do
     # Arrange
-    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf:  61445385007)
 
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
     buffet = Buffet.create!(

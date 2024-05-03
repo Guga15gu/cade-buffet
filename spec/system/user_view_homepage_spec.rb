@@ -138,7 +138,7 @@ end
 describe 'Usuário Cliente visita tela inicial' do
   it 'e vê lista de buffets' do
     # Arrange
-    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf:  61445385007)
     gustavo = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
     joao = BuffetOwnerUser.create!(email: 'joao@email.com', password: 'password', name: 'João')
 
@@ -182,7 +182,7 @@ describe 'Usuário Cliente visita tela inicial' do
 
   it 'e não existem buffets cadastrados' do
     # Arrange
-    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf:  61445385007)
     # Act
     login_as client, :scope => :client
     visit(root_path)

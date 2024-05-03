@@ -300,7 +300,7 @@ end
 describe 'Usuário Cliente busca por um buffet' do
   it 'e vê botão de busca' do
     # Arrange
-    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf:  61445385007)
     # Act
     login_as client, :scope => :client
     visit root_path
@@ -312,7 +312,7 @@ describe 'Usuário Cliente busca por um buffet' do
 
   it 'e encontra um buffet por nome' do
     # Arrange
-    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf:  61445385007)
 
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
     buffet_owner_user_2 = BuffetOwnerUser.create!(email: 'joao@email.com', password: 'password', name: 'Joao')
@@ -359,7 +359,7 @@ describe 'Usuário Cliente busca por um buffet' do
 
   it 'e encontra um buffet por cidade' do
     # Arrange
-    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf:  61445385007)
 
     buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
     buffet_owner_user_2 = BuffetOwnerUser.create!(email: 'joao@email.com', password: 'password', name: 'Joao')
@@ -406,7 +406,7 @@ describe 'Usuário Cliente busca por um buffet' do
 
   it 'e encontra um buffet por evento' do
     # Arrange
-    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf:  61445385007)
 
     buffet_owner_user_a = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
     buffet_owner_user_b = BuffetOwnerUser.create!(email: 'joao@email.com', password: 'password', name: 'Joao')
@@ -479,7 +479,7 @@ describe 'Usuário Cliente busca por um buffet' do
 
   it 'e encontra vários buffets em ordem alfabética' do
     # Arrange
-    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf:  61445385007)
 
     buffet_owner_user_a = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
     buffet_owner_user_b = BuffetOwnerUser.create!(email: 'joao@email.com', password: 'password', name: 'Joao')

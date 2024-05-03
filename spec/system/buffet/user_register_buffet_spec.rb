@@ -13,7 +13,7 @@ describe 'Usuário Dono de Buffet cadastra um buffet' do
 
   it 'e não pode ser usuário Cliente' do
     # Arrange
-    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf:  61445385007)
     # Act
     login_as client, :scope => :client
     visit new_buffet_path

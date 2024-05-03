@@ -5,3 +5,4 @@ pt-BR:
     attributes:
       client:
         name: 'Nome'
+        cpf: 'CPF'

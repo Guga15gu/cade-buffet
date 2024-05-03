@@ -13,7 +13,7 @@ describe 'Usuário Dono de Buffet cadastra um tipo de buffet' do
 
   it 'e não pode ser Cliente' do
     # Arrange
-    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf:  61445385007)
     # Act
     login_as client, :scope => :client
     visit root_path
@@ -24,7 +24,7 @@ describe 'Usuário Dono de Buffet cadastra um tipo de buffet' do
 
   it 'e Cliente não acessa formulário' do
     # Arrange
-    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf:  61445385007)
 
     # Act
     login_as client, :scope => :client

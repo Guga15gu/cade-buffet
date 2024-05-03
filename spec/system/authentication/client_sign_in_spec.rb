@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'Usuário Cliente se autentica' do
   it 'com sucesso' do
     # Arrange
-    Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf: 61445385007)
 
     # Act
     visit root_path
@@ -30,7 +30,7 @@ describe 'Usuário Cliente se autentica' do
 
   it 'e faz logout' do
     # Arrange
-    Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf: 61445385007)
 
     # Act
     visit root_path
