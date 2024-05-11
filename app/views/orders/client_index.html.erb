@@ -1,0 +1,19 @@
+<h2>Pedidos</h2>
+
+<section>
+  <% if @orders.empty?%>
+    <p>Não há nenhum pedido.</p>
+  <% else %>
+    <div>
+      <ul>
+        <% @orders.each do |order| %>
+          <li>
+            <%= link_to order.code, order %>
+            Data: <%= I18n.localize order.date %>
+            Buffet: <%= order.buffet.business_name %>, <%= order.buffet_type.name %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</section>

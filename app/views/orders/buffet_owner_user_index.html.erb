@@ -1,0 +1,46 @@
+<h2>Pedidos</h2>
+
+<section>
+  <% if @orders.empty?%>
+    <p>Não há nenhum pedido.</p>
+  <% else %>
+    <div id='pending'>
+      <h3>Aguardando avaliação</h3>
+      <ul>
+        <% @orders.pending.each do |order| %>
+          <li>
+            <%= link_to order.code, order %>
+            Data: <%= I18n.localize order.date %>
+            Buffet: <%= order.buffet.business_name %>, <%= order.buffet_type.name %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div id='confirmed'>
+      <h3>Confirmados</h3>
+      <ul>
+        <% @orders.confirmed.each do |order| %>
+          <li>
+            <%= link_to order.code, order %>
+            Data: <%= I18n.localize order.date %>
+            Buffet: <%= order.buffet.business_name %>, <%= order.buffet_type.name %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div id='canceled'>
+      <h3>Cancelados</h3>
+      <ul>
+        <% @orders.canceled.each do |order| %>
+          <li>
+            <%= link_to order.code, order %>
+            Data: <%= I18n.localize order.date %>
+            Buffet: <%= order.buffet.business_name %>, <%= order.buffet_type.name %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</section>

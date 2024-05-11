@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_03_203630) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_10_112419) do
   create_table "buffet_owner_users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -86,7 +86,28 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_03_203630) do
     t.index ["reset_password_token"], name: "index_clients_on_reset_password_token", unique: true
   end
 
+  create_table "orders", force: :cascade do |t|
+    t.integer "buffet_id", null: false
+    t.integer "buffet_type_id", null: false
+    t.date "date"
+    t.integer "number_of_guests"
+    t.string "address"
+    t.string "event_details"
+    t.string "code"
+    t.integer "status", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "has_custom_address"
+    t.integer "client_id", null: false
+    t.index ["buffet_id"], name: "index_orders_on_buffet_id"
+    t.index ["buffet_type_id"], name: "index_orders_on_buffet_type_id"
+    t.index ["client_id"], name: "index_orders_on_client_id"
+  end
+
   add_foreign_key "buffet_type_prices", "buffet_types"
   add_foreign_key "buffet_types", "buffets"
   add_foreign_key "buffets", "buffet_owner_users"
+  add_foreign_key "orders", "buffet_types"
+  add_foreign_key "orders", "buffets"
+  add_foreign_key "orders", "clients"
 end

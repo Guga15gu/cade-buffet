@@ -1,0 +1,31 @@
+<h2>Pedido</h2>
+
+<div>
+  <%= link_to 'Voltar', root_path %>
+</div>
+
+<dl>
+  <dt>Buffet:</dt>
+  <dd><%= @buffet.business_name %></dd>
+
+  <dt>Tipo de evento:</dt>
+  <dd><%= @buffet_type.name %></dd>
+
+  <dt>Data desejada:</dt>
+  <dd><%= I18n.localize @order.date %></dd>
+
+  <dt>Quantidade estimada de convidados:</dt>
+  <dd><%= @order.number_of_guests %></dd>
+
+  <dt>Detalhes do Evento:</dt>
+  <dd><%= @order.event_details %></dd>
+
+  <dt>Endereço próprio desejado para o evento:</dt>
+  <dd><%= @order.address %></dd>
+
+  <dt>Status:</dt>
+  <dd><%= t @order.status %></dd>
+
+  <dt>Código:</dt>
+  <dd><%= @order.code %></dd>
+</dl>

@@ -11,3 +11,7 @@ pt-BR:
   found: 
     one: 'encontrado'
     other: 'encontrados'
+
+  pending: Aguardando avaliação do dono do buffet
+  confirmed: Confirmado
+  canceled: Cancelado

@@ -4,8 +4,10 @@ class Client < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :orders
+
   validates :name, :cpf, presence: true
   validates :cpf, uniqueness: true
-  validates :cpf, cpf: { message: 'CPF é inválido' }
+  validates :cpf, cpf: { message: 'é inválido' }
 
 end

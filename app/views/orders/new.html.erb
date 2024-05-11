@@ -1,0 +1,43 @@
+<h1>Fazer Pedido</h1>
+
+<% if(@order.errors.any?) %>
+  <p>Verifique os erros abaixo:</p>
+  <ul>
+    <% @order.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<div><%= link_to 'Voltar', buffet_path(@buffet) %></div>
+
+<%= form_with(model: @order) do |f| %>
+  <div>
+    <%= f.label :buffet_type_id, 'Tipo de evento' %>
+    <%= f.collection_select :buffet_type_id, @buffet_types, :id, :name %>
+  </div>
+  <div>
+    <%= f.label :date, 'Data desejada' %>
+    <%= f.date_field :date %>
+  </div>
+  <div>
+    <%= f.label :number_of_guests, 'Quantidade estimada de convidados' %>
+    <%= f.number_field :number_of_guests %>
+  </div>
+  <div>
+    <%= f.label :event_details, 'Detalhes do Evento' %>
+    <%= f.text_field :event_details %>
+  </div>
+  <div>
+    <%= f.label :has_custom_address, 'Endereço próprio' %>
+    <%= f.select :has_custom_address, [['Sim', true], ['Não', :false]], selected: false %>
+  </div>
+  <div>
+    <%= f.label :address, 'Endereço próprio desejado para o evento' %>
+    <%= f.text_field :address %>
+  </div>
+
+  <div>
+    <%= f.submit 'Enviar' %>
+  </div>
+<% end %>

@@ -18,7 +18,9 @@
           <%= button_to 'Sair', destroy_buffet_owner_user_session_path, method: :delete %>
 
           <% if Buffet.exists?(buffet_owner_user: current_buffet_owner_user)%>
-            <%= link_to 'Registrar Tipo de Evento', new_buffet_type_path %>    
+            <%= link_to 'Registrar Tipo de Evento', new_buffet_type_path %>   
+
+            <div> <%= link_to 'Pedidos', buffet_owner_user_index_orders_path %> </div> 
           <% end %>
         <% end %>
 
@@ -26,6 +28,8 @@
           Cliente: <%= current_client.name %> |
           <%= current_client.email %> |
           <%= button_to 'Sair', destroy_client_session_path, method: :delete %>
+
+          <div> <%= link_to 'Meus pedidos', client_index_orders_path %> </div>
         <% end %>
         
         <%unless buffet_owner_user_signed_in? or client_signed_in? %>

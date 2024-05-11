@@ -6,6 +6,10 @@
   <div><%= link_to 'Editar Buffet', edit_buffet_path(@buffet) %></div>
 <% end %>
 
+<% if client_signed_in?  %>
+  <div><%= link_to 'Fazer Pedido', new_order_path(buffet_id: @buffet.id) %></div>
+<% end %>
+
 <section>
   <dl>
     <dt><%= Buffet.human_attribute_name(:business_name) %>:</dt>

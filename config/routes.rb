@@ -8,4 +8,10 @@ Rails.application.routes.draw do
   end
   resources :buffet_types, only: [:new, :create, :show, :edit, :update]
   resources :buffet_type_prices, only: [:new, :create, :show, :edit, :update]
+
+  resources :orders, only: [:new, :create, :show] do
+    get 'client_index', on: :collection
+    get 'buffet_owner_user_index', on: :collection
+  end
+
 end
