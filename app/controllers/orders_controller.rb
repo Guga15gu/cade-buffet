@@ -29,6 +29,11 @@ class OrdersController < ApplicationController
   def show
     @buffet = Buffet.find(@order.buffet_id)
     @buffet_type = BuffetType.find(@order.buffet_type_id)
+
+    orders_in_same_day = Order.where(date: @order.date)
+    @others_orders_in_same_day = orders_in_same_day.reject{ |order| order == @order }
+    @another_order_in_same_day = @others_orders_in_same_day.count > 0
+
   end
 
   def client_index
@@ -44,6 +49,20 @@ class OrdersController < ApplicationController
       return @orders = [] if buffet.orders.nil?
       @orders = buffet.orders
     end
+  end
+
+  def confirmed
+    @order = Order.find(params[:id])
+    @order.confirmed!
+
+    redirect_to @order, notice: 'Pedido Confirmado com sucesso!'
+  end
+
+  def canceled
+    @order = Order.find(params[:id])
+    @order.canceled!
+
+    redirect_to @order, notice: 'Pedido Cancelado com sucesso!'
   end
 
   private

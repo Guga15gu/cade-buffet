@@ -4,6 +4,27 @@
   <%= link_to 'Voltar', root_path %>
 </div>
 
+<% if buffet_owner_user_signed_in? %>
+  <% if @another_order_in_same_day %>
+    <div id="others_orders">
+      Há outros pedidos no mesmo dia:
+      <ul>
+        <% @others_orders_in_same_day.each do |order| %>
+          <li>Pedido <%= link_to order.code, order_path(order) %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if @order.pending? %>
+    <div>
+      <%= button_to 'Confirmar Pedido', confirmed_order_path(@order.id) %>
+    </div>
+    <div>
+      <%= button_to 'Cancelar Pedido', canceled_order_path(@order.id) %>
+    </div>
+  <% end %>
+<% end %>
 <dl>
   <dt>Status:</dt>
   <dd><%= t @order.status %></dd>
