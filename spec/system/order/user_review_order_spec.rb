@@ -189,6 +189,78 @@ describe 'Usuário Dono de Buffet avalia um pedido' do
     expect(page).not_to have_button 'Cancelar Pedido'
   end
 
+  it 'e vê campos para preencher, para confirmar pedido' do
+    # Arrange
+    client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf:  '408.357.400-30')
+
+    buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+    buffet = Buffet.create!(
+      business_name: 'Buffet Delícias',
+      corporate_name: 'Empresa de Buffet Ltda',
+      registration_number: '12345678901234',
+      contact_phone: '(11) 1234-5678',
+      address: 'Rua dos Sabores, 123',
+      district: 'Centro',
+      state: 'São Paulo',
+      city: 'São Paulo',
+      postal_code: '12345-678',
+      description: 'Buffet especializado em eventos corporativos',
+      payment_methods: 'Cartão de crédito, Dinheiro',
+      buffet_owner_user: buffet_owner_user
+    )
+    buffet_type = BuffetType.create!(
+      name: 'Casamento',
+      description: 'Casamento com comida',
+      max_capacity_people: 10,
+      min_capacity_people: 5,
+      duration: 120,
+      menu: 'Comida caseira e doce',
+      alcoholic_beverages: true,
+      decoration: true,
+      parking_valet: true,
+      exclusive_address: true,
+      buffet: buffet
+    )
+    BuffetTypePrice.create!(
+      base_price_weekday: 10,
+      additional_per_person_weekday: 11,
+      additional_per_hour_weekday: 20,
+      base_price_weekend: 21,
+      additional_per_person_weekend: 30,
+      additional_per_hour_weekend: 31,
+      buffet_type: buffet_type
+    )
+    allow(SecureRandom).to receive(:alphanumeric).with(8).and_return('ABC12345')
+    order = Order.create!(
+      client: client,
+      buffet: buffet,
+      buffet_type: buffet_type,
+      date: 7.day.from_now,
+      number_of_guests: 7,
+      address: 'Rua Joao, 50',
+      event_details: 'Sem mais detalhes',
+      has_custom_address: true
+    )
+
+    # Act
+    login_as buffet_owner_user, :scope => :buffet_owner_user
+    visit order_path(order)
+
+    # Assert
+    expect(page).to have_button 'Confirmar Pedido'
+    expect(page).to have_content 'Valor final em R$: 0'
+    expect(page).to have_content 'Taxa extra ou desconto:'
+    expect(page).to have_field 'Taxa extra ou desconto'
+    expect(page).to have_content 'Descrição da taxa extra ou desconto:'
+    expect(page).to have_field 'Descrição da taxa extra ou desconto'
+    expect(page).to have_content 'Meio de pagamento:'
+    expect(page).to have_field 'Meio de pagamento:'
+    expect(page).to have_content 'Data de validade do valor atual:'
+    expect(page).to have_field 'Data de validade do valor atual'
+
+    expect(page).to have_button 'Cancelar Pedido'
+  end
+
   it 'e confirma o pedido' do
     # Arrange
     client = Client.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo', cpf:  '408.357.400-30')

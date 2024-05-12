@@ -5,6 +5,7 @@
 </div>
 
 <% if buffet_owner_user_signed_in? %>
+  
   <% if @another_order_in_same_day %>
     <div id="others_orders">
       Há outros pedidos no mesmo dia:
@@ -18,8 +19,36 @@
 
   <% if @order.pending? %>
     <div>
-      <%= button_to 'Confirmar Pedido', confirmed_order_path(@order.id) %>
+      <div>
+        Valor final em R$: <%= @order.calculate_base_price %>
+      </div>
+
+      <%= form_with(url: confirmed_order_path(@order.id), method: :post) do |f| %>
+        <div>
+          <%= f.hidden_field :buffet_type_id, value: @buffet_type_id %>
+        </div>
+        <div>
+          <%= f.label :tax_or_discount, 'Taxa extra ou desconto:' %>
+          <%= f.number_field :tax_or_discount %>
+        </div>
+        <div>
+          <%= f.label :description_tax_or_discount, 'Descrição da taxa extra ou desconto:' %>
+          <%= f.text_field :description_tax_or_discount %>
+        </div>
+        <div>
+          <%= f.label :payment_method, 'Meio de pagamento:' %>
+          <%= f.text_field :payment_method %>
+        </div>
+        <div>
+          <%= f.label :payment_date, 'Data de validade do valor atual:' %>
+          <%= f.text_field :payment_date %>
+        </div>
+        <div>
+          <%= f.submit 'Confirmar Pedido' %>
+        </div>
+      <% end %>
     </div>
+    
     <div>
       <%= button_to 'Cancelar Pedido', canceled_order_path(@order.id) %>
     </div>
@@ -54,5 +83,4 @@
     <dt>Sem Local Próprio:</dt>
     <dd>Na localização do buffet</dd>
   <% end %>
-
 </dl>

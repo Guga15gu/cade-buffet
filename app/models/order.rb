@@ -10,6 +10,10 @@ class Order < ApplicationRecord
 
   validate :outside_capacity_of_people?, :has_address?
 
+  def calculate_base_price
+    0
+  end
+
   private
 
   def generate_code
