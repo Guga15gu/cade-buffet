@@ -1,15 +1,21 @@
-<h2>Pedido</h2>
+<h2>Pedido <%= @order.code %> </h2>
 
 <div>
   <%= link_to 'Voltar', root_path %>
 </div>
 
 <dl>
-  <dt>Buffet:</dt>
-  <dd><%= @buffet.business_name %></dd>
+  <dt>Status:</dt>
+  <dd><%= t @order.status %></dd>
+  
+  <dt>Cliente:</dt>
+  <dd><%= @order.client.name %>, <%= @order.client.email %></dd>
 
-  <dt>Tipo de evento:</dt>
-  <dd><%= @buffet_type.name %></dd>
+  <dt>Buffet:</dt>
+  <dd><%= link_to @buffet.business_name, buffet_path(@buffet) %></dd>
+
+  <dt>Tipo de Evento:</dt>
+  <dd><%= link_to @buffet_type.name, buffet_type_path(@buffet_type) %></dd>
 
   <dt>Data desejada:</dt>
   <dd><%= I18n.localize @order.date %></dd>
@@ -20,12 +26,12 @@
   <dt>Detalhes do Evento:</dt>
   <dd><%= @order.event_details %></dd>
 
-  <dt>Endereço próprio desejado para o evento:</dt>
-  <dd><%= @order.address %></dd>
+  <% if @order.has_custom_address %>
+    <dt>Local Próprio:</dt>
+    <dd><%= @order.address %></dd>
+  <% else %>
+    <dt>Sem Local Próprio:</dt>
+    <dd>Na localização do buffet</dd>
+  <% end %>
 
-  <dt>Status:</dt>
-  <dd><%= t @order.status %></dd>
-
-  <dt>Código:</dt>
-  <dd><%= @order.code %></dd>
 </dl>

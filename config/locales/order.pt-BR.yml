@@ -6,3 +6,9 @@ pt-BR:
         other: Pedidos
     attributes:
       order:
+        date: Data
+        number_of_guests: Quantidade estimada de convidados
+        address: Endereço
+        event_details: Detalhes do Evento
+        code: código
+        status: Status
