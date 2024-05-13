@@ -115,6 +115,12 @@ describe 'Usuário Dono de Buffet avalia um pedido' do
       event_details: 'Sem mais detalhes',
       has_custom_address: true
     )
+    order.update!(
+      tax_or_discount: 10,
+      description_tax_or_discount: 'blabla bla',
+      payment_method: 'cartao',
+      payment_date: 3.days.from_now
+    )
     order.confirmed!
 
     # Act
@@ -221,7 +227,7 @@ describe 'Usuário Dono de Buffet avalia um pedido' do
       exclusive_address: true,
       buffet: buffet
     )
-    BuffetTypePrice.create!(
+    buffet_type_price = BuffetTypePrice.create!(
       base_price_weekday: 10,
       additional_per_person_weekday: 11,
       additional_per_hour_weekday: 20,
@@ -242,13 +248,23 @@ describe 'Usuário Dono de Buffet avalia um pedido' do
       has_custom_address: true
     )
 
+    if order.date.on_weekday?
+      base_price = buffet_type_price.base_price_weekday
+      additional_per_person = buffet_type_price.additional_per_person_weekday
+    else
+      base_price = buffet_type_price.base_price_weekend
+      additional_per_person = buffet_type_price.additional_per_person_weekend
+    end
+    extra_people = order.number_of_guests - buffet_type.min_capacity_people
+    price = base_price + extra_people * additional_per_person
+
     # Act
     login_as buffet_owner_user, :scope => :buffet_owner_user
     visit order_path(order)
 
     # Assert
     expect(page).to have_button 'Confirmar Pedido'
-    expect(page).to have_content 'Valor final em R$: 0'
+    expect(page).to have_content "Valor final em R$: #{price}"
     expect(page).to have_content 'Taxa extra ou desconto:'
     expect(page).to have_field 'Taxa extra ou desconto'
     expect(page).to have_content 'Descrição da taxa extra ou desconto:'
@@ -319,6 +335,11 @@ describe 'Usuário Dono de Buffet avalia um pedido' do
     visit root_path
     click_on 'Pedidos'
     click_on 'ABC12345'
+
+    fill_in 'Taxa extra ou desconto', with: '10'
+    fill_in 'Descrição da taxa extra ou desconto', with: 'taxa do dia'
+    fill_in 'Meio de pagamento', with: 'Cartão de crédito'
+    fill_in 'Data de validade do valor atual', with: 3.days.from_now
     click_on 'Confirmar Pedido'
 
     # Assert
@@ -330,6 +351,11 @@ describe 'Usuário Dono de Buffet avalia um pedido' do
     expect(page).to have_content 'Quantidade estimada de convidados: 7'
     expect(page).to have_content 'Detalhes do Evento: Sem mais detalhes'
     expect(page).to have_content 'Local Próprio: Rua Joao, 50'
+
+    expect(page).to have_content 'Taxa extra ou desconto: 10'
+    expect(page).to have_content 'Descrição da taxa extra ou desconto: taxa do dia'
+    expect(page).to have_content 'Meio de pagamento: Cartão de crédito'
+    expect(page).to have_content "Data de validade do valor atual: #{3.days.from_now.strftime("%d/%m/%Y")}"
   end
 
   it 'e cancela o pedido' do

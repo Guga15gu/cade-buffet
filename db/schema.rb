@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_10_112419) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_13_110950) do
   create_table "buffet_owner_users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -99,6 +99,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_10_112419) do
     t.datetime "updated_at", null: false
     t.boolean "has_custom_address"
     t.integer "client_id", null: false
+    t.integer "tax_or_discount"
+    t.string "description_tax_or_discount"
+    t.string "payment_method"
+    t.date "payment_date"
     t.index ["buffet_id"], name: "index_orders_on_buffet_id"
     t.index ["buffet_type_id"], name: "index_orders_on_buffet_type_id"
     t.index ["client_id"], name: "index_orders_on_client_id"

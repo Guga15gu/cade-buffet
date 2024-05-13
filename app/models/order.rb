@@ -10,8 +10,23 @@ class Order < ApplicationRecord
 
   validate :outside_capacity_of_people?, :has_address?
 
-  def calculate_base_price
-    0
+  def calculate_price
+    buffet_type_price = buffet_type.buffet_type_price
+
+    extra_people = number_of_guests - buffet_type.min_capacity_people
+    if date.on_weekday?
+      min_value = buffet_type_price.base_price_weekday
+      additional_per_person = buffet_type_price.additional_per_person_weekday
+    else
+      min_value = buffet_type_price.base_price_weekend
+      additional_per_person = buffet_type_price.additional_per_person_weekend
+    end
+
+    min_value + extra_people * additional_per_person
+  end
+
+  def calculate_price_with_tax_or_discount
+    calculate_price + tax_or_discount
   end
 
   private

@@ -53,6 +53,10 @@ class OrdersController < ApplicationController
 
   def confirmed
     @order = Order.find(params[:id])
+
+    order_params = params.require(:order).permit(:tax_or_discount, :description_tax_or_discount, :payment_method, :payment_date)
+
+    @order.update(order_params)
     @order.confirmed!
 
     redirect_to @order, notice: 'Pedido Confirmado com sucesso!'
