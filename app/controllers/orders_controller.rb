@@ -51,15 +51,22 @@ class OrdersController < ApplicationController
     end
   end
 
-  def confirmed
+  def approved_by_buffet_owner
     @order = Order.find(params[:id])
 
     order_params = params.require(:order).permit(:tax_or_discount, :description_tax_or_discount, :payment_method, :payment_date)
 
     @order.update(order_params)
-    @order.confirmed!
+    @order.approved_by_buffet_owner!
 
-    redirect_to @order, notice: 'Pedido Confirmado com sucesso!'
+    redirect_to @order, notice: 'Pedido Aprovado com sucesso, esperando confirmação do cliente!'
+  end
+
+  def confirmed_by_client
+    @order = Order.find(params[:id])
+    @order.confirmed_by_client!
+
+    redirect_to @order, notice: 'Pedido Confirmado com sucesso! O buffet será realizado!'
   end
 
   def canceled

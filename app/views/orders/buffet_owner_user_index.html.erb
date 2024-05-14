@@ -17,10 +17,10 @@
       </ul>
     </div>
 
-    <div id='confirmed'>
-      <h3>Confirmados</h3>
+    <div id='approved_by_buffet_owner'>
+      <h3>Aprovados pelo Dono do Buffet</h3>
       <ul>
-        <% @orders.confirmed.each do |order| %>
+        <% @orders.approved_by_buffet_owner.each do |order| %>
           <li>
             <%= link_to order.code, order %>
             Data: <%= I18n.localize order.date %>

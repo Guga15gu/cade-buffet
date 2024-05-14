@@ -808,7 +808,7 @@ describe 'Usuário Dono de Buffet vê seus pedidos' do
       address: 'Rua Joao, 50',
       event_details: 'Sem mais detalhes',
       has_custom_address: true,
-      status: :confirmed
+      status: :approved_by_buffet_owner
     )
     allow(SecureRandom).to receive(:alphanumeric).with(8).and_return('CON6789')
     Order.create!(
@@ -820,7 +820,7 @@ describe 'Usuário Dono de Buffet vê seus pedidos' do
       address: 'Rua Joao, 50',
       event_details: 'Sem mais detalhes',
       has_custom_address: true,
-      status: :confirmed
+      status: :approved_by_buffet_owner
     )
 
     allow(SecureRandom).to receive(:alphanumeric).with(8).and_return('CAN12345')
@@ -864,7 +864,7 @@ describe 'Usuário Dono de Buffet vê seus pedidos' do
       expect(page).to have_content 5.day.from_now.strftime("%d/%m/%Y")
       expect(page).to have_link 'PEN6789'
 
-      expect(page).not_to have_content 'Confirmados'
+      expect(page).not_to have_content 'Aprovados pelo Dono do Buffet'
       expect(page).not_to have_content 'Buffet Delícias, Orquestra'
       expect(page).not_to have_content 7.day.from_now.strftime("%d/%m/%Y")
       expect(page).not_to have_link 'CON12345'
@@ -881,8 +881,8 @@ describe 'Usuário Dono de Buffet vê seus pedidos' do
       expect(page).not_to have_link 'CAN6789'
     end
 
-    within('div#confirmed') do
-      expect(page).to have_content 'Confirmados'
+    within('div#approved_by_buffet_owner') do
+      expect(page).to have_content 'Aprovados pelo Dono do Buffet'
       expect(page).to have_content 'Buffet Delícias, Orquestra'
       expect(page).to have_content 7.day.from_now.strftime("%d/%m/%Y")
       expect(page).to have_link 'CON12345'
@@ -924,7 +924,7 @@ describe 'Usuário Dono de Buffet vê seus pedidos' do
       expect(page).not_to have_content 5.day.from_now.strftime("%d/%m/%Y")
       expect(page).not_to have_link 'PEN6789'
 
-      expect(page).not_to have_content 'Confirmados'
+      expect(page).not_to have_content 'Aprovados pelo Dono do Buffet'
       expect(page).not_to have_content 'Buffet Delícias, Orquestra'
       expect(page).not_to have_content 7.day.from_now.strftime("%d/%m/%Y")
       expect(page).not_to have_link 'CON12345'

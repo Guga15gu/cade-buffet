@@ -13,5 +13,6 @@ pt-BR:
     other: 'encontrados'
 
   pending: Aguardando avaliação do dono do buffet
-  confirmed: Confirmado
+  approved_by_buffet_owner: Aprovado pelo Dono do Buffet
   canceled: Cancelado
+  confirmed_by_client: Pedido Confirmado pelo Cliente.

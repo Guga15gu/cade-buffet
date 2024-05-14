@@ -3,7 +3,8 @@ class Order < ApplicationRecord
   belongs_to :buffet_type
   belongs_to :client
 
-  enum status: { pending: 0, confirmed:5, canceled: 9 }
+  enum status: { pending: 0, confirmed_by_client:5, canceled: 9, approved_by_buffet_owner: 14 }
+  
   before_validation :generate_code, on: :create
 
   validates :buffet_id, :buffet_type_id, :date, :number_of_guests, :event_details, :code, :status, :client_id, presence: true

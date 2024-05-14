@@ -23,7 +23,7 @@
         Valor final em R$: <%= @order.calculate_price %>
       </div>
 
-      <%= form_with(model: @order, url: confirmed_order_path(@order.id), method: :post) do |f| %>
+      <%= form_with(model: @order, url: approved_by_buffet_owner_order_path(@order.id), method: :post) do |f| %>
         <div>
           <%= f.label :tax_or_discount, 'Taxa extra ou desconto:' %>
           <%= f.number_field :tax_or_discount %>
@@ -41,7 +41,7 @@
           <%= f.date_field :payment_date %>
         </div>
         <div>
-          <%= f.submit 'Confirmar Pedido' %>
+          <%= f.submit 'Aprovar Pedido' %>
         </div>
       <% end %>
     </div>
@@ -50,7 +50,7 @@
       <%= button_to 'Cancelar Pedido', canceled_order_path(@order.id) %>
     </div>
   
-  <% elsif @order.confirmed? %>
+  <% elsif @order.approved_by_buffet_owner? %>
     <dl>
       <dt>Valor final em R$:</dt>
       <dd><%= @order.calculate_price_with_tax_or_discount %></dd>
@@ -67,6 +67,34 @@
       <dt>Data de validade do valor atual:</dt>
       <dd><%= I18n.localize @order.payment_date %></dd>
     </dl>
+  <% end %>
+
+<% elsif client_signed_in? %>
+  <% if @order.approved_by_buffet_owner? %>
+    <div id="approved_by_buffet_owner">
+      <dl>
+        <dt>Valor final em R$:</dt>
+        <dd><%= @order.calculate_price_with_tax_or_discount %></dd>
+
+        <dt>Taxa extra ou desconto:</dt>
+        <dd><%= @order.tax_or_discount %></dd>
+
+        <dt>Descrição da taxa extra ou desconto:</dt>
+        <dd><%= @order.description_tax_or_discount %></dd>
+
+        <dt>Meio de pagamento:</dt>
+        <dd><%= @order.payment_method %></dd>
+
+        <dt>Data de validade do valor atual:</dt>
+        <dd><%= I18n.localize @order.payment_date %></dd>
+      </dl>
+    </div>
+
+    <% if @order.payment_date > Date.today %>
+      <%= button_to 'Confirmar Pedido', confirmed_by_client_order_path(@order.id) %>
+    <% else %>
+      <p>Data máxima para aprovar o pedido foi excedida!. Não é mais possível aprovar o pedido.</p>
+    <% end %>
   <% end %>
 <% end %>
 
