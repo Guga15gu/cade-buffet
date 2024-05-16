@@ -263,6 +263,46 @@ describe 'buffet_type API' do
       expect(json_response[2]["id"]).to eq buffet_type_festa.id
       expect(json_response[2]["name"]).to eq 'Festa'
     end
+
+    it 'e ocorre erro interno' do
+      # Arrange
+      allow(Buffet).to receive(:find).and_raise(ActiveRecord::QueryCanceled)
+
+      buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+      buffet = Buffet.create!(
+        business_name: 'Buffet Delícias',
+        corporate_name: 'Empresa de Buffet Ltda',
+        registration_number: '12345678901234',
+        contact_phone: '(11) 1234-5678',
+        address: 'Rua dos Sabores, 123',
+        district: 'Centro',
+        state: 'SP',
+        city: 'São Paulo',
+        postal_code: '12345-678',
+        description: 'Buffet especializado em eventos corporativos',
+        payment_methods: 'Cartão de crédito, Dinheiro',
+        buffet_owner_user: buffet_owner_user
+      )
+      buffet_type_casamento = BuffetType.create!(
+        name: 'Casamento',
+        description: 'Casamento com comida',
+        max_capacity_people: 10,
+        min_capacity_people: 5,
+        duration: 120,
+        menu: 'Comida caseira e doce',
+        alcoholic_beverages: true,
+        decoration: true,
+        parking_valet: true,
+        exclusive_address: true,
+        buffet: buffet
+      )
+      # Act
+      get "/api/v1/buffets/#{buffet.id}/buffet_types"
+
+      # Assert
+      expect(response.status).to eq 500
+    end
   end
 
   context 'GET /api/v1/buffets/:buffets_id/buffet_types/1/available?=date=15-05-2024&number_of_guests=6' do
@@ -656,6 +696,66 @@ describe 'buffet_type API' do
       json_response = JSON.parse(response.body)
       expect(json_response.keys.length).to eq 1
       expect(json_response["error"]).to eq "Tipo de Buffet ainda não tem preço cadastrado"
+    end
+
+    it 'e ocorre erro interno' do
+      # Arrange
+      allow(BuffetType).to receive(:find).and_raise(ActiveRecord::QueryCanceled)
+
+      buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+      buffet = Buffet.create!(
+        business_name: 'Buffet Delícias',
+        corporate_name: 'Empresa de Buffet Ltda',
+        registration_number: '12345678901234',
+        contact_phone: '(11) 1234-5678',
+        address: 'Rua dos Sabores, 123',
+        district: 'Centro',
+        state: 'SP',
+        city: 'São Paulo',
+        postal_code: '12345-678',
+        description: 'Buffet especializado em eventos corporativos',
+        payment_methods: 'Cartão de crédito, Dinheiro',
+        buffet_owner_user: buffet_owner_user
+      )
+      buffet_type = BuffetType.create!(
+        name: 'Casamento',
+        description: 'Casamento com comida',
+        max_capacity_people: 10,
+        min_capacity_people: 5,
+        duration: 120,
+        menu: 'Comida caseira e doce',
+        alcoholic_beverages: true,
+        decoration: true,
+        parking_valet: true,
+        exclusive_address: true,
+        buffet: buffet
+      )
+      buffet_type_price = BuffetTypePrice.create!(
+        base_price_weekday: 10,
+        additional_per_person_weekday: 10,
+        additional_per_hour_weekday: 20,
+        base_price_weekend: 20,
+        additional_per_person_weekend: 20,
+        additional_per_hour_weekend: 40,
+        buffet_type: buffet_type
+      )
+
+      extra_people = 6 - buffet_type.min_capacity_people
+      if Date.tomorrow.on_weekday?
+        min_value = buffet_type_price.base_price_weekday
+        additional_per_person = buffet_type_price.additional_per_person_weekday
+      else
+        min_value = buffet_type_price.base_price_weekend
+        additional_per_person = buffet_type_price.additional_per_person_weekend
+      end
+
+      price = min_value + extra_people * additional_per_person
+
+      # Act
+      get "/api/v1/buffets/#{buffet.id}/buffet_types/#{buffet_type.id}/available", params: {date: Date.tomorrow, number_of_guests: 6}
+
+      # Assert
+      expect(response.status).to eq 500
     end
   end
 end

@@ -70,6 +70,32 @@ describe 'Buffet API' do
       # Assert
       expect(response.status).to eq 404
     end
+
+    it 'e ocorre erro interno' do
+      # Arrange
+      allow(Buffet).to receive(:find).and_raise(ActiveRecord::QueryCanceled)
+      buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+      buffet = Buffet.create!(
+        business_name: 'Buffet Delícias',
+        corporate_name: 'Empresa de Buffet Ltda',
+        registration_number: '12345678901234',
+        contact_phone: '(11) 1234-5678',
+        address: 'Rua dos Sabores, 123',
+        district: 'Centro',
+        state: 'SP',
+        city: 'São Paulo',
+        postal_code: '12345-678',
+        description: 'Buffet especializado em eventos corporativos',
+        payment_methods: 'Cartão de crédito, Dinheiro',
+        buffet_owner_user: buffet_owner_user
+      )
+      # Act
+      get "/api/v1/buffets/#{buffet.id}"
+
+      # Assert
+      expect(response.status).to eq 500
+    end
   end
 
   context 'GET /api/v1/buffets' do
@@ -194,6 +220,32 @@ describe 'Buffet API' do
       json_response = JSON.parse(response.body)
       expect(json_response.length).to eq 0
       expect(json_response).to eq []
+    end
+
+    it 'e ocorre erro interno' do
+      # Arrange
+      allow(Buffet).to receive(:all).and_raise(ActiveRecord::QueryCanceled)
+
+      buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+      buffet_delicias = Buffet.create!(
+        business_name: 'Delícias',
+        corporate_name: 'Empresa de Buffet Ltda',
+        registration_number: '12345678901234',
+        contact_phone: '(11) 1234-5678',
+        address: 'Rua dos Sabores, 123',
+        district: 'Centro',
+        state: 'SP',
+        city: 'São Paulo',
+        postal_code: '12345-678',
+        description: 'Buffet especializado em eventos corporativos',
+        payment_methods: 'Cartão de crédito, Dinheiro',
+        buffet_owner_user: buffet_owner_user
+      )
+      # Act
+      get "/api/v1/buffets/"
+
+      # Assert
+      expect(response.status).to eq 500
     end
   end
 
@@ -453,6 +505,32 @@ describe 'Buffet API' do
       json_response = JSON.parse(response.body)
       expect(json_response.length).to eq 0
       expect(json_response).to eq []
+    end
+
+    it 'e ocorre erro interno' do
+      # Arrange
+      allow(Buffet).to receive(:where).and_raise(ActiveRecord::QueryCanceled)
+      buffet_owner_user = BuffetOwnerUser.create!(email: 'gustavo@email.com', password: 'password', name: 'Gustavo')
+
+      buffet_delicias = Buffet.create!(
+        business_name: 'Delícias',
+        corporate_name: 'Empresa de Buffet Ltda',
+        registration_number: '12345678901234',
+        contact_phone: '(11) 1234-5678',
+        address: 'Rua dos Sabores, 123',
+        district: 'Centro',
+        state: 'SP',
+        city: 'São Paulo',
+        postal_code: '12345-678',
+        description: 'Buffet especializado em eventos corporativos',
+        payment_methods: 'Cartão de crédito, Dinheiro',
+        buffet_owner_user: buffet_owner_user
+      )
+      # Act
+      get "/api/v1/buffets/", params: {search: 'Del'}
+
+      # Assert
+      expect(response.status).to eq 500
     end
   end
 
