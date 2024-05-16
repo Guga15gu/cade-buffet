@@ -20,7 +20,9 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :buffets, only: [:show, :index] do
-        resources :buffet_types, only: [:index]
+        resources :buffet_types, only: [:index] do
+          get 'available', on: :member
+        end
       end
     end
   end
