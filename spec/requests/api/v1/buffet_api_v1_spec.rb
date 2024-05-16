@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'GET /api/v1/buffets' do
+describe 'Buffet API' do
   context 'GET /api/v1/buffets/1' do
     it 'e sucesso' do
       # Arrange

@@ -19,7 +19,9 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :buffets, only: [:show, :index]
+      resources :buffets, only: [:show, :index] do
+        resources :buffet_types, only: [:index]
+      end
     end
   end
 end
