@@ -116,10 +116,14 @@ Há 3 tipos de usuários:
 3. Rode ```bundle install``` para instalar as depedências.
 
 4. Prepare a db com ```rails db:reset```
-
-5. Popule a db com ```rails db:seeds```
    
-6. Inicie o servidor com ```rails server```, ele normalmente executará em `http://127.0.0.1:3000`
+5. Inicie o servidor com ```rails server```, ele normalmente executará em `http://127.0.0.1:3000`
+
+6. Os usuários cadastrados pela seed são:
+   - Cliente: email: `gustavo@email.com`, password: `password`
+   - Cliente: email: `joao@email.com`, password: `password`
+   - Dono de Buffet: `gustavo@email.com`, password: `password`
+   - Dono de Buffet: `alex@email.com`, password: `password`
 
 #### Testes:
 1. Os testes podem ser executados com o comando ```rspec```
