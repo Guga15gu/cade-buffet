@@ -23,42 +23,85 @@ Há 3 tipos de usuários:
 - Retorna um buffet pelo id.
 - Exemplo de resposta:
 ```json
-{"id":1,"business_name":"Buffet Delícias","contact_phone":"(11) 1234-5678","address":"Rua dos Sabores, 123","district":"Centro","state":"SP","city":"São Paulo","postal_code":"12345-678","description":"Buffet especializado em eventos corporativos","payment_methods":"Cartão de crédito, Dinheiro"}
+{
+    "id":1,
+    "business_name":"Buffet Delícias",
+    "contact_phone":"(11) 1234-5678",
+    "address":"Rua dos Sabores, 123",
+    "district":"Centro",
+    "state":"SP",
+    "city":"São Paulo",
+    "postal_code":"12345-678",
+    "description":"Buffet especializado em eventos corporativos",
+    "payment_methods":"Cartão de crédito, Dinheiro"
+}
 ```
 #### get "/api/v1/buffets/"
 - Retorna uma lista dos buffets.
 - Exemplo de resposta:
 ```json
-[{"id":1,"business_name":"Buffet Delícias","contact_phone":"(11) 1234-5678","address":"Rua dos Sabores, 123","district":"Centro","state":"SP","city":"São Paulo","postal_code":"12345-678","description":"Buffet especializado em eventos corporativos","payment_methods":"Cartão de crédito, Dinheiro"}]
+[
+    {
+        "id":1,
+        "business_name":"Buffet Delícias",
+        "contact_phone":"(11) 1234-5678",
+        "address":"Rua dos Sabores, 123",
+        "district":"Centro",
+        "state":"SP",
+        "city":"São Paulo",
+        "postal_code":"12345-678",
+        "description":"Buffet especializado em eventos corporativos",
+        "payment_methods":"Cartão de crédito, Dinheiro"
+        }
+]
 ```
 #### get "/api/v1/buffets?search=#{search}"
 - Busca por um buffet pelo nome e retorna uma lista de buffets em ordem alfabética por nome.
 - Exemplo de resposta:
 ```json
-[{"id":1,"business_name":"Buffet Delícias","contact_phone":"(11) 1234-5678","address":"Rua dos Sabores, 123","district":"Centro","state":"SP","city":"São Paulo","postal_code":"12345-678","description":"Buffet especializado em eventos corporativos","payment_methods":"Cartão de crédito, Dinheiro"}]
+[
+    {
+        "id":1,
+        "business_name":"Buffet Delícias",
+        "contact_phone":"(11) 1234-5678",
+        "address":"Rua dos Sabores, 123",
+        "district":"Centro",
+        "state":"SP",
+        "city":"São Paulo",
+        "postal_code":"12345-678",
+        "description":"Buffet especializado em eventos corporativos",
+        "payment_methods":"Cartão de crédito, Dinheiro"
+    }
+]
 ```
 #### get "/api/v1/buffets/#{buffet.id}/buffet_types"
 - Retorna uma lista de tipos de buffet de um buffet identificado pelo id
 - Exemplo de resposta:
 ```json
-[{"id":1,
-  "name":"Casamento",
-  "description":"Casamento com comida",
-"max_capacity_people":10,
-  "min_capacity_people":5,
-  "duration":120,
-  "menu":"Comida caseira e doce",
-  "alcoholic_beverages":true,
-  "decoration":true,
-  "parking_valet":true,
-  "exclusive_address":true,
-  "buffet_id":1}]
+[
+    {
+        "id":1,
+        "name":"Casamento",
+        "description":"Casamento com comida",
+        "max_capacity_people":10,
+        "min_capacity_people":5,
+        "duration":120,
+        "menu":"Comida caseira e doce",
+        "alcoholic_beverages":true,
+        "decoration":true,
+        "parking_valet":true,
+        "exclusive_address":true,
+        "buffet_id":1
+    }
+]
 ```
 #### get "/api/v1/buffets/#{buffet.id}/buffet_types/#{buffet_type.id}/available?date=#{date}&number_of_guests=#{date}"
 - Retorna o preço de um evento de um tipo de buffet, é necessário informar o id do buffete do tipo de buffet, além da data desejada e a quantidade de pessoas
 - Exemplo de resposta:
 ```json
-{"price":20}
+{
+    "price":20
+}
 ```
 
 ### Como rodar
